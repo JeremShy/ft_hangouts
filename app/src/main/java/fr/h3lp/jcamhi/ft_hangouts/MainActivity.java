@@ -43,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
         this._contacts = this.getContacts();
         _adapter = new MyAdapter(MainActivity.this, this._contacts);
         _listView.setAdapter(_adapter);
-        ((FloatingActionButton)findViewById(R.id.fab)).setOnClickListener(this.add_contact);
     }
 
     private List<Contact>getContacts(){
@@ -77,12 +76,9 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-    private View.OnClickListener add_contact = new View.OnClickListener() {
-        @Override
-        public void onClick(View v){
+    public void add_contact(View v) {
             Toast.makeText(MainActivity.this, "Adding a contact", Toast.LENGTH_SHORT).show();
             MainActivity.this._contacts.add(new Contact("Jeremy", "Camhi", "0610202020", getDrawable(R.mipmap.ic_person)));
             MainActivity.this._adapter.notifyDataSetChanged();
-        }
-    };
+    }
 }
