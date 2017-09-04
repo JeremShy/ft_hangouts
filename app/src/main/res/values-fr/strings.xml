@@ -13,4 +13,15 @@
     <string name="title_home">Accueil</string>
     <string name="title_messages">Messages</string>
     <string name="language">Langage</string>
+    <string name="default_language">fr</string>
+    <string name="contact_edited">Contact correctement édité</string>
+    <string name="error_nom">Le champ nom ne peut pas être vide</string>
+    <string name="error_numero">Le champ numero de téléphone ne peut pas être vide</string>
+    <string name="error_prenom">Le champ prénom ne peut pas être vide</string>
+    <string name="nom">Nom</string>
+    <string name="numero">Numero de téléphone</string>
+    <string name="prenom">Prenom</string>
+    <string name="nom_hint">Nom *</string>
+    <string name="numero_hint">Numero de téléphone *</string>
+    <string name="prenom_hint">Prenom *</string>
 </resources>

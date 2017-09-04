@@ -5,7 +5,7 @@
         <item>English</item>
     </string-array>
     <string-array name="prefvalues">
-        <item>1</item>
-        <item>2</item>
+        <item>fr</item>
+        <item>en</item>
     </string-array>
 </resources>
