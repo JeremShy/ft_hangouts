@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ft_hangouts</string>
+    <string name="action_search">Rechercher</string>
+    <string name="action_settings">Options</string>
+    <string name="drawer_close">Fermer</string>
+    <string name="drawer_open">Ouvrir</string>
+    <string name="nav_item_friends">Amis</string>
+    <string name="nav_item_home">Accueil</string>
+    <string name="nav_item_notifications">Messages</string>
+    <string name="settings">Options</string>
+    <string name="title_friends">Amis</string>
+    <string name="title_home">Accueil</string>
+    <string name="title_messages">Messages</string>
+    <string name="language">Langage</string>
+</resources>

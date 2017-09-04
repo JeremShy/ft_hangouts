@@ -1,6 +1,9 @@
 package fr.h3lp.jcamhi.ft_hangouts;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.res.Configuration;
+import android.preference.PreferenceActivity;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +18,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,6 +36,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Locale loc = new Locale("fr");
+        Locale.setDefault(loc);
+        Configuration config = new Configuration();
+        config.locale = loc;
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+        this.setContentView(R.layout.activity_main);
 
         _toolbar = (Toolbar)findViewById(R.id.toolbar);
 
@@ -69,6 +80,8 @@ public class MainActivity extends AppCompatActivity {
         switch (id) {
             case R.id.action_settings:
                 Toast.makeText(MainActivity.this, "Got click on settings", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainActivity.this, PreferencesActivity.class);
+                startActivity(intent);
                 return true;
             case R.id.action_search:
                 Toast.makeText(MainActivity.this, "Got click on search", Toast.LENGTH_SHORT).show();
@@ -77,8 +90,8 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
     public void add_contact(View v) {
-            Toast.makeText(MainActivity.this, "Adding a contact", Toast.LENGTH_SHORT).show();
-            MainActivity.this._contacts.add(new Contact("Jeremy", "Camhi", "0610202020", getDrawable(R.mipmap.ic_person)));
-            MainActivity.this._adapter.notifyDataSetChanged();
+        Toast.makeText(MainActivity.this, "Adding a contact", Toast.LENGTH_SHORT).show();
+        MainActivity.this._contacts.add(new Contact("Jeremy", "Camhi", "0610202020", getDrawable(R.mipmap.ic_person)));
+        MainActivity.this._adapter.notifyDataSetChanged();
     }
 }
