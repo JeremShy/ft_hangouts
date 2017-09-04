@@ -24,4 +24,5 @@
     <string name="nom_hint">Surname *</string>
     <string name="prenom_hint">Name *</string>
     <string name="numero_hint">Phone number *</string>
+    <string name="adding_contact">Adding a contact</string>
 </resources>

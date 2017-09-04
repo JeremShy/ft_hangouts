@@ -21,11 +21,13 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:layout_width="130dp"
-                android:layout_height="130dp"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
                 android:layout_margin="15dp"
                 android:id="@+id/avatar_page_contact" />
             <android.support.design.widget.TextInputLayout
+                app:errorEnabled="true"
+                android:id="@+id/edit_nom_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/avatar_page_contact"
@@ -41,6 +43,8 @@
                     android:maxLines="1" />
             </android.support.design.widget.TextInputLayout>
             <android.support.design.widget.TextInputLayout
+                app:errorEnabled="true"
+                android:id="@+id/edit_prenom_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/avatar_page_contact"
@@ -57,6 +61,8 @@
                     android:maxLines="1" />
             </android.support.design.widget.TextInputLayout>
             <android.support.design.widget.TextInputLayout
+                app:errorEnabled="true"
+                android:id="@+id/edit_numero_layout"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/avatar_page_contact"

@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void start_add_contact(View v) {
-        Toast.makeText(MainActivity.this, "Adding a contact", Toast.LENGTH_SHORT).show();
+        Toast.makeText(MainActivity.this, R.string.adding_contact, Toast.LENGTH_SHORT).show();
         MainActivity.this._contacts.add(new Contact("Jeremy", "Camhi", "0610202020", getDrawable(R.mipmap.ic_person)));
         MainActivity.this._adapter.notifyDataSetChanged();
         Intent intent = new Intent(MainActivity.this, AddContactActivity.class);
