@@ -4,7 +4,9 @@ import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * Created by jcamhi on 9/3/17.
@@ -153,6 +155,16 @@ public class Contact {
 
     public void set_anniversaire(Date _anniversaire) {
         this._anniversaire = _anniversaire;
+    }
+
+    public String get_anniv_as_str() {
+        return Contact.get_date_as_str_stat(this._anniversaire);
+    }
+
+    public static String get_date_as_str_stat(Date d) {
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        String s = df.format(d);
+        return (s);
     }
 
 }

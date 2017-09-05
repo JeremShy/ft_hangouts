@@ -27,4 +27,5 @@
     <string name="adding_contact">Ajout d\'un contact en cours</string>
     <string name="address">Addresse</string>
     <string name="birthday">Anniversaire</string>
+    <string name="add_a_contact">Ajouter un contact</string>
 </resources>

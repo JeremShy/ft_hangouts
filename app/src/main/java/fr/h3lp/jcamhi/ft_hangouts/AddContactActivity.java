@@ -11,6 +11,8 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
@@ -33,7 +35,7 @@ import static android.app.Activity.RESULT_OK;
  * Created by jcamhi on 9/4/17.
  */
 
-public class AddContactActivity extends Activity {
+public class AddContactActivity extends AppCompatActivity {
     private static final String EXTRA_ID = "id";
     private static Date _date;
 
@@ -46,23 +48,30 @@ public class AddContactActivity extends Activity {
 
         this.setResult(RESULT_CANCELED);
 
+        android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(getString(R.string.add_a_contact));
+
+
         ImageView iv = (ImageView)findViewById(R.id.avatar_page_contact);
         iv.setImageDrawable(getDrawable(R.mipmap.ic_person));
 
         final EditText prenom, nom, numero, domicile, anniversaire;
         final TextInputLayout prenom_layout, nom_layout, numero_layout, domicile_layout, anniversaire_layout;
 
-        prenom = findViewById(R.id.edit_prenom);
-        nom = findViewById(R.id.edit_nom);
-        numero = findViewById(R.id.edit_numero);
-        domicile = findViewById(R.id.edit_domicile);
-        anniversaire = findViewById(R.id.edit_anniversaire);
+        prenom = (EditText)findViewById(R.id.edit_prenom);
+        nom = (EditText)findViewById(R.id.edit_nom);
+        numero = (EditText)findViewById(R.id.edit_numero);
+        domicile = (EditText)findViewById(R.id.edit_domicile);
+        anniversaire = (EditText)findViewById(R.id.edit_anniversaire);
 
-        prenom_layout = findViewById(R.id.edit_prenom_layout);
-        nom_layout = findViewById(R.id.edit_nom_layout);
-        numero_layout = findViewById(R.id.edit_numero_layout);
-        domicile_layout = findViewById(R.id.edit_domicile_layout);
-        anniversaire_layout = findViewById(R.id.edit_anniversaire_layout);
+        prenom_layout = (TextInputLayout) findViewById(R.id.edit_prenom_layout);
+        nom_layout = (TextInputLayout) findViewById(R.id.edit_nom_layout);
+        numero_layout = (TextInputLayout) findViewById(R.id.edit_numero_layout);
+        domicile_layout = (TextInputLayout) findViewById(R.id.edit_domicile_layout);
+        anniversaire_layout = (TextInputLayout) findViewById(R.id.edit_anniversaire_layout);
 
         prenom.setOnFocusChangeListener(new View.OnFocusChangeListener() {
            @Override
@@ -98,6 +107,18 @@ public class AddContactActivity extends Activity {
 
     }
 
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.setResult(RESULT_CANCELED);
+                this.finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+
     public void showDatePickerDialog(View v) {
         InputMethodManager imm = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
         View view = this.getCurrentFocus();
@@ -114,21 +135,21 @@ public class AddContactActivity extends Activity {
         EditText prenom, nom, numero, domicile, anniversaire;
         TextInputLayout prenom_layout, nom_layout, numero_layout, domicile_layout, anniversaire_layout;
 
-        prenom = findViewById(R.id.edit_prenom);
-        nom = findViewById(R.id.edit_nom);
-        numero = findViewById(R.id.edit_numero);
-        domicile = findViewById(R.id.edit_domicile);
-        anniversaire = findViewById(R.id.edit_anniversaire);
+        prenom = (EditText) findViewById(R.id.edit_prenom);
+        nom = (EditText) findViewById(R.id.edit_nom);
+        numero = (EditText) findViewById(R.id.edit_numero);
+        domicile = (EditText) findViewById(R.id.edit_domicile);
+        anniversaire = (EditText) findViewById(R.id.edit_anniversaire);
 
         View cur = getCurrentFocus();
         if (cur != null)
             cur.clearFocus();
 
-        prenom_layout = findViewById(R.id.edit_prenom_layout);
-        nom_layout = findViewById(R.id.edit_nom_layout);
-        numero_layout = findViewById(R.id.edit_numero_layout);
-        domicile_layout = findViewById(R.id.edit_domicile_layout);
-        anniversaire_layout = findViewById(R.id.edit_anniversaire_layout);
+        prenom_layout = (TextInputLayout) findViewById(R.id.edit_prenom_layout);
+        nom_layout = (TextInputLayout) findViewById(R.id.edit_nom_layout);
+        numero_layout = (TextInputLayout) findViewById(R.id.edit_numero_layout);
+        domicile_layout = (TextInputLayout) findViewById(R.id.edit_domicile_layout);
+        anniversaire_layout = (TextInputLayout) findViewById(R.id.edit_anniversaire_layout);
 
         if (this.isEmpty(prenom)) {
             prenom_layout.setError(getString(R.string.error_prenom));
@@ -187,8 +208,7 @@ public class AddContactActivity extends Activity {
 
             GregorianCalendar cal = new GregorianCalendar(year, month, day);
             Date d = cal.getTime();
-            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-            String s = df.format(d);
+            String s = Contact.get_date_as_str_stat(d);
 
             ed.setText(s);
             ed.clearFocus();
