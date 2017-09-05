@@ -15,6 +15,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public static final String COL_PRENOM = "prenom";
     public static final String COL_NOM = "nom";
     public static final String COL_NUMERO = "numero";
+    public static final String COL_DOMICILE = "domicile";
+    public static final String COL_ANNIVERSAIRE = "anniversaire";
 
     public static final String DATABASE_NAME = "contacts.db";
     public static final int DATABASE_VERSION = 1;
@@ -24,7 +26,9 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             + MySQLiteHelper.COL_ID + " integer primary key autoincrement, "
             + MySQLiteHelper.COL_NOM + " text not null, "
             + MySQLiteHelper.COL_PRENOM + " text not null, "
-            + MySQLiteHelper.COL_NUMERO + " text not null"
+            + MySQLiteHelper.COL_NUMERO + " text not null, "
+            + MySQLiteHelper.COL_DOMICILE + " text not null, "
+            + MySQLiteHelper.COL_ANNIVERSAIRE + " int not null"
             + ");";
 
     public MySQLiteHelper(Context context) {
@@ -38,7 +42,14 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int old, int newV) {
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " +  TABLE_CONTACTS);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " +  TABLE_CONTACTS); //NON-NLS
         onCreate(sqLiteDatabase);
     }
+
+    @Override
+    public void onDowngrade(SQLiteDatabase sqLiteDatabase, int old, int newV) {
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " +  TABLE_CONTACTS); //NON-NLS
+        onCreate(sqLiteDatabase);
+    }
+
 }

@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -26,7 +27,9 @@ public class ContactDAO {
             MySQLiteHelper.COL_ID,
             MySQLiteHelper.COL_NOM,
             MySQLiteHelper.COL_PRENOM,
-            MySQLiteHelper.COL_NUMERO
+            MySQLiteHelper.COL_NUMERO,
+            MySQLiteHelper.COL_DOMICILE,
+            MySQLiteHelper.COL_ANNIVERSAIRE
     };
 
     public ContactDAO(Context context) {
@@ -42,11 +45,19 @@ public class ContactDAO {
         this._dbHelper.close();
     }
 
-    public Contact createContact(String nom, String prenom, String numero) {
+    public Contact createContact(String nom, String prenom, String numero, String domicile, Date anniversaire) {
+        Long d;
+        if (anniversaire != null)
+            d = anniversaire.getTime();
+        else
+            d = new Long(-1);
+
         ContentValues values = new ContentValues();
         values.put(MySQLiteHelper.COL_NOM, nom);
         values.put(MySQLiteHelper.COL_PRENOM, prenom);
         values.put(MySQLiteHelper.COL_NUMERO, numero);
+        values.put(MySQLiteHelper.COL_DOMICILE, domicile);
+        values.put(MySQLiteHelper.COL_ANNIVERSAIRE, d);
 
         long insertId = this._database.insert(MySQLiteHelper.TABLE_CONTACTS, null, values);
         Cursor cursor = this._database.query(MySQLiteHelper.TABLE_CONTACTS, allColumns, MySQLiteHelper.COL_ID + " = " + insertId, null, null, null, null);
@@ -77,7 +88,7 @@ public class ContactDAO {
     }
 
     public Contact getContact(long id) {
-        Cursor cursor = this._database.query(MySQLiteHelper.TABLE_CONTACTS, allColumns, null, null, null, null, null);
+        Cursor cursor = this._database.query(MySQLiteHelper.TABLE_CONTACTS, allColumns, MySQLiteHelper.COL_ID + " = " + id, null, null, null, null);
         cursor.moveToFirst();
         Contact ret = this.cursorToContact(cursor);
         cursor.close();
@@ -85,12 +96,20 @@ public class ContactDAO {
     }
 
     private Contact cursorToContact(Cursor cursor){
+        Long l = cursor.getLong(cursor.getColumnIndex(MySQLiteHelper.COL_ANNIVERSAIRE));
+        Date d;
+        if (l <= 0)
+            d = null;
+        else
+            d = new Date(l);
         Contact contact = new Contact(
                 cursor.getLong(cursor.getColumnIndexOrThrow(MySQLiteHelper.COL_ID)),
                 cursor.getString(cursor.getColumnIndex(MySQLiteHelper.COL_NOM)),
                 cursor.getString(cursor.getColumnIndex(MySQLiteHelper.COL_PRENOM)),
                 cursor.getString(cursor.getColumnIndex(MySQLiteHelper.COL_NUMERO)),
-                ResourcesCompat.getDrawable(this._context.getResources(), R.mipmap.ic_person, null));
+                ResourcesCompat.getDrawable(this._context.getResources(), R.mipmap.ic_person, null),
+                cursor.getString(cursor.getColumnIndex(MySQLiteHelper.COL_DOMICILE)),
+                d);
         return (contact);
     }
 }

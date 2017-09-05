@@ -4,6 +4,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Date;
+
 /**
  * Created by jcamhi on 9/3/17.
  */
@@ -15,6 +17,9 @@ public class Contact {
     private String _prenom;
     private String _numero;
     private Drawable _avatar;
+    private String _domicile;
+
+    private Date _anniversaire;
 
     public Contact(String nom, String prenom, String numero, Drawable drawable) {
         if (nom != null)
@@ -29,6 +34,8 @@ public class Contact {
             this._numero = numero;
         else
             this._numero = "";
+        this._domicile = "";
+        this._anniversaire = null;
         this._avatar = drawable;
     }
 
@@ -46,6 +53,45 @@ public class Contact {
             this._numero = numero;
         else
             this._numero = "";
+        this._domicile = "";
+        this._anniversaire = null;
+        this._avatar = drawable;
+    }
+
+    public Contact(long id, String nom, String prenom, String numero, Drawable drawable, String domicile, Date anniversaire) {
+        this._id = id;
+        if (nom != null)
+            this._nom = nom;
+        else
+            this._nom = "";
+        if (prenom != null)
+            this._prenom = prenom;
+        else
+            this._prenom = "";
+        if (numero != null)
+            this._numero = numero;
+        else
+            this._numero = "";
+        this._domicile = domicile;
+        this._anniversaire = anniversaire;
+        this._avatar = drawable;
+    }
+
+    public Contact(String nom, String prenom, String numero, Drawable drawable, String domicile, Date anniversaire) {
+        if (nom != null)
+            this._nom = nom;
+        else
+            this._nom = "";
+        if (prenom != null)
+            this._prenom = prenom;
+        else
+            this._prenom = "";
+        if (numero != null)
+            this._numero = numero;
+        else
+            this._numero = "";
+        this._domicile = domicile;
+        this._anniversaire = anniversaire;
         this._avatar = drawable;
     }
 
@@ -92,4 +138,21 @@ public class Contact {
     public String get_nom_prenom() {
         return (_nom + " " + _prenom);
     }
+
+    public String get_domicile() {
+        return _domicile;
+    }
+
+    public void set_domicile(String _domicile) {
+        this._domicile = _domicile;
+    }
+
+    public Date get_anniversaire() {
+        return _anniversaire;
+    }
+
+    public void set_anniversaire(Date _anniversaire) {
+        this._anniversaire = _anniversaire;
+    }
+
 }

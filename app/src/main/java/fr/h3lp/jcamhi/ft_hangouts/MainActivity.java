@@ -29,6 +29,8 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String PREF_LANGUAGE = "pref_language";
+    public static final String ID_EXTRA = "id";
     private Toolbar _toolbar;
     private ListView _listView;
     private MyAdapter _adapter;
@@ -49,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        String language = sharedPref.getString("pref_language", getString(R.string.default_language));
+        String language = sharedPref.getString(PREF_LANGUAGE, getString(R.string.default_language));
         Locale loc = new Locale(language);
         Locale.setDefault(loc);
         Configuration config = new Configuration();
@@ -119,16 +121,12 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intent, LANGUAGE_CHANGED);
                 return true;
             case R.id.action_search:
-                Snackbar.make(findViewById(R.id.coordinator_main), "Got click on settings", Snackbar.LENGTH_SHORT).show();
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
     public void start_add_contact(View v) {
-        Toast.makeText(MainActivity.this, R.string.adding_contact, Toast.LENGTH_SHORT).show();
-//        MainActivity.this._contacts.add(new Contact("Jeremy", "Camhi", "0610202020", getDrawable(R.mipmap.ic_person)));
-//        MainActivity.this._adapter.notifyDataSetChanged();
         Intent intent = new Intent(MainActivity.this, AddContactActivity.class);
         startActivityForResult(intent, CONTACT_ADDED);
     }
@@ -137,11 +135,14 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == LANGUAGE_CHANGED) {
             this.recreate();
         } else if (requestCode == CONTACT_ADDED) {
-            if (resultCode == RESULT_OK)
-                Toast.makeText(this, "In onActivity", Toast.LENGTH_SHORT).show();
-                Log.e("fr", Long.toString(data.getLongExtra("id", 0)));
-                this._contacts.add(DatabaseSingleton.getDao(this).getContact(data.getLongExtra("id", 0)));
+            if (resultCode == RESULT_OK && data != null) {
+                Long id = data.getLongExtra(ID_EXTRA, 0);
+                Log.e("fr", "id : " + Long.toString(id));
+                Contact cont = DatabaseSingleton.getDao(this).getContact(id);
+                Log.e("fr", "Adding contact : " + cont.get_nom_prenom());
+                this._contacts.add(cont);
                 this._adapter.notifyDataSetChanged();
+            }
         }
     }
 }

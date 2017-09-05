@@ -77,6 +77,41 @@
                     android:id="@+id/edit_numero"
                     android:inputType="phone" />
             </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                app:errorEnabled="true"
+                android:id="@+id/edit_domicile_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/edit_numero_layout"
+                android:layout_centerHorizontal="true">
+            <EditText
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="@string/address"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:id="@+id/edit_domicile" />
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            app:errorEnabled="true"
+            android:id="@+id/edit_anniversaire_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/edit_domicile_layout"
+            android:layout_centerHorizontal="true">
+            <EditText
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="@string/birthday"
+                android:imeOptions="actionDone"
+                android:id="@+id/edit_anniversaire" />
+        </android.support.design.widget.TextInputLayout>
         </RelativeLayout>
     </LinearLayout>
     <android.support.design.widget.FloatingActionButton

@@ -25,4 +25,6 @@
     <string name="numero_hint">Numero de téléphone *</string>
     <string name="prenom_hint">Prenom *</string>
     <string name="adding_contact">Ajout d\'un contact en cours</string>
+    <string name="address">Addresse</string>
+    <string name="birthday">Anniversaire</string>
 </resources>

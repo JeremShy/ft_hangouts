@@ -56,19 +56,21 @@ public class PreferencesActivity extends AppCompatActivity {
     }
 
     public static class SettingsFragment extends PreferenceFragment  implements OnSharedPreferenceChangeListener {
+        private static final String PREF_LANGUAGE = "pref_language";
+
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
 
             // Load the preferences from an XML resource
             addPreferencesFromResource(R.xml.preferences);
-            Preference languagePref = findPreference("pref_language");
-            ListPreference lp = (ListPreference) findPreference("pref_language");
+            Preference languagePref = findPreference(PREF_LANGUAGE);
+            ListPreference lp = (ListPreference) findPreference(PREF_LANGUAGE);
             languagePref.setSummary(lp.getEntry());
         }
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
             SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-            String language = sharedPref.getString("pref_language", getString(R.string.default_language));
+            String language = sharedPref.getString(PREF_LANGUAGE, getString(R.string.default_language));
 
             Locale loc = new Locale(language);
             Locale.setDefault(loc);
@@ -77,8 +79,8 @@ public class PreferencesActivity extends AppCompatActivity {
             getResources().updateConfiguration(conf, getResources().getDisplayMetrics());
             pref.recreate();
 
-            Preference languagePref = findPreference("pref_language");
-            ListPreference lp = (ListPreference) findPreference("pref_language");
+            Preference languagePref = findPreference(PREF_LANGUAGE);
+            ListPreference lp = (ListPreference) findPreference(PREF_LANGUAGE);
             languagePref.setSummary(lp.getEntry());
         }
         @Override
