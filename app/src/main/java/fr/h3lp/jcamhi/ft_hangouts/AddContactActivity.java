@@ -1,6 +1,7 @@
 package fr.h3lp.jcamhi.ft_hangouts;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -69,6 +70,9 @@ public class AddContactActivity extends Activity {
         prenom = findViewById(R.id.edit_prenom);
         nom = findViewById(R.id.edit_nom);
         numero = findViewById(R.id.edit_numero);
+        View cur = getCurrentFocus();
+        if (cur != null)
+            cur.clearFocus();
 
         prenom_layout = findViewById(R.id.edit_prenom_layout);
         nom_layout = findViewById(R.id.edit_nom_layout);
@@ -77,32 +81,35 @@ public class AddContactActivity extends Activity {
         if (this.isEmpty(prenom)) {
             prenom_layout.setError(getString(R.string.error_prenom));
             prenom_layout.setHint(null);
-            prenom.clearFocus();
             error = true;
         }
         if (this.isEmpty(nom)) {
             nom_layout.setError(getString(R.string.error_nom));
             nom_layout.setHint(null);
-            nom.clearFocus();
             error = true;
         }
         if (this.isEmpty(numero)) {
             numero_layout.setError(getString(R.string.error_numero));
             numero_layout.setHint(null);
-            numero.clearFocus();
             error = true;
         }
         if (error)
             return ;
 
         Snackbar.make(findViewById(R.id.coor_add), getString(R.string.contact_edited), Snackbar.LENGTH_SHORT).show();
-//        this.finish();
+        Contact cont = DatabaseSingleton.getDao(this).createContact(
+                nom.getText().toString(),
+                prenom.getText().toString(),
+                numero.getText().toString());
+        Intent result = new Intent();
+        result.putExtra("id", cont.get_id());
+        this.setResult(RESULT_OK, result);
+        this.finish();
     }
 
     private boolean isEmpty(EditText etText) {
         if (etText.getText().toString().trim().length() > 0)
             return false;
-
         return true;
     }
 }

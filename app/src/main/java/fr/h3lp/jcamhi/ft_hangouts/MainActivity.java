@@ -8,12 +8,14 @@ import android.content.res.Configuration;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
+import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private List<Contact> _contacts;
 
     static final int LANGUAGE_CHANGED = 1;
+    static final int CONTACT_ADDED = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,38 +48,40 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         String language = sharedPref.getString("pref_language", getString(R.string.default_language));
-
         Locale loc = new Locale(language);
         Locale.setDefault(loc);
         Configuration config = new Configuration();
         config.locale = loc;
-
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+
         this.setContentView(R.layout.activity_main);
 
         _toolbar = (Toolbar)findViewById(R.id.toolbar);
-
         setSupportActionBar(_toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        _listView = (ListView) findViewById(R.id.list_view);
+        DatabaseSingleton.getDao(this).open();
 
+        _listView = (ListView) findViewById(R.id.list_view);
         this._contacts = this.getContacts();
         _adapter = new MyAdapter(MainActivity.this, this._contacts);
         _listView.setAdapter(_adapter);
+
+
     }
 
-    private List<Contact>getContacts(){
+    private List<Contact>getContacts() {
         List<Contact> contacts = new ArrayList<Contact>();
-        for (int i = 0; i < 10; i++) {
-            contacts.add(new Contact("Jeremy", "Camhi", "0610202020", getDrawable(R.mipmap.ic_person)));
-            contacts.add(new Contact("Collette", "Camhi", "0610303030", getDrawable(R.mipmap.ic_person)));
-            contacts.add(new Contact("Marcel", "Camhi", "0610414141", getDrawable(R.mipmap.ic_person)));
-            contacts.add(new Contact("Yohan", "Camhi", "0610424242", getDrawable(R.mipmap.ic_person)));
-        }
+//        for (int i = 0; i < 10; i++) {
+//            contacts.add(new Contact("Jeremy", "Camhi", "0610202020", getDrawable(R.mipmap.ic_person)));
+//            contacts.add(new Contact("Collette", "Camhi", "0610303030", getDrawable(R.mipmap.ic_person)));
+//            contacts.add(new Contact("Marcel", "Camhi", "0610414141", getDrawable(R.mipmap.ic_person)));
+//            contacts.add(new Contact("Yohan", "Camhi", "0610424242", getDrawable(R.mipmap.ic_person)));
+//        }
+//        return contacts;
+        contacts = DatabaseSingleton.getDao(this).getAllContacts();
         return contacts;
     }
 
@@ -84,6 +89,24 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
+    }
+
+    @Override
+    protected void  onPause() {
+//        DatabaseSingleton.getDao(this).close();
+        super.onPause();
+    }
+
+    @Override
+    protected void  onResume() {
+//        DatabaseSingleton.getDao(this).open();
+        super.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        DatabaseSingleton.getDao(this).close();
+        super.onDestroy();
     }
 
     @Override
@@ -104,15 +127,21 @@ public class MainActivity extends AppCompatActivity {
 
     public void start_add_contact(View v) {
         Toast.makeText(MainActivity.this, R.string.adding_contact, Toast.LENGTH_SHORT).show();
-        MainActivity.this._contacts.add(new Contact("Jeremy", "Camhi", "0610202020", getDrawable(R.mipmap.ic_person)));
-        MainActivity.this._adapter.notifyDataSetChanged();
+//        MainActivity.this._contacts.add(new Contact("Jeremy", "Camhi", "0610202020", getDrawable(R.mipmap.ic_person)));
+//        MainActivity.this._adapter.notifyDataSetChanged();
         Intent intent = new Intent(MainActivity.this, AddContactActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, CONTACT_ADDED);
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         if (requestCode == LANGUAGE_CHANGED) {
             this.recreate();
+        } else if (requestCode == CONTACT_ADDED) {
+            if (resultCode == RESULT_OK)
+                Toast.makeText(this, "In onActivity", Toast.LENGTH_SHORT).show();
+                Log.e("fr", Long.toString(data.getLongExtra("id", 0)));
+                this._contacts.add(DatabaseSingleton.getDao(this).getContact(data.getLongExtra("id", 0)));
+                this._adapter.notifyDataSetChanged();
         }
     }
 }
