@@ -30,7 +30,7 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String PREF_LANGUAGE = "pref_language";
+    public static final String PREF_LANGUAGE = "pref_language";
     public static final String ID_EXTRA = "id";
     private Toolbar _toolbar;
     private ListView _listView;
@@ -91,13 +91,6 @@ public class MainActivity extends AppCompatActivity {
 
     private List<Contact>getContacts() {
         List<Contact> contacts = new ArrayList<Contact>();
-//        for (int i = 0; i < 10; i++) {
-//            contacts.add(new Contact("Jeremy", "Camhi", "0610202020", getDrawable(R.mipmap.ic_person)));
-//            contacts.add(new Contact("Collette", "Camhi", "0610303030", getDrawable(R.mipmap.ic_person)));
-//            contacts.add(new Contact("Marcel", "Camhi", "0610414141", getDrawable(R.mipmap.ic_person)));
-//            contacts.add(new Contact("Yohan", "Camhi", "0610424242", getDrawable(R.mipmap.ic_person)));
-//        }
-//        return contacts;
         contacts = DatabaseSingleton.getDao(this).getAllContacts();
         return contacts;
     }

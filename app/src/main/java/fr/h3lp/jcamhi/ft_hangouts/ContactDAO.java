@@ -67,6 +67,29 @@ public class ContactDAO {
         return (ret);
     }
 
+    public Contact updateContact(long id, String nom, String prenom, String numero, String domicile, Date anniversaire) {
+        Long d;
+        if (anniversaire != null)
+            d = anniversaire.getTime();
+        else
+            d = new Long(-1);
+
+        ContentValues values = new ContentValues();
+        values.put(MySQLiteHelper.COL_NOM, nom);
+        values.put(MySQLiteHelper.COL_PRENOM, prenom);
+        values.put(MySQLiteHelper.COL_NUMERO, numero);
+        values.put(MySQLiteHelper.COL_DOMICILE, domicile);
+        values.put(MySQLiteHelper.COL_ANNIVERSAIRE, d);
+
+        this._database.update(MySQLiteHelper.TABLE_CONTACTS, values, MySQLiteHelper.COL_ID + " = " + id, null);
+        Cursor cursor = this._database.query(MySQLiteHelper.TABLE_CONTACTS, allColumns, MySQLiteHelper.COL_ID + " = " + id, null, null, null, null);
+        cursor.moveToFirst();
+        Contact ret = this.cursorToContact(cursor);
+        cursor.close();
+        return (ret);
+    }
+
+
     public void deleteContact(Contact contact) {
         long id = contact.get_id();
         _database.delete(MySQLiteHelper.TABLE_CONTACTS, MySQLiteHelper.COL_ID + " = " + id, null);

@@ -8,18 +8,6 @@
     android:layout_width="fill_parent"
     android:id="@+id/coor_add">
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_details_contact"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
-        android:onClick="add_contact"
-        app:elevation="8dp"
-        app:fabSize="normal"
-        app:srcCompat="@drawable/ic_add_black_24dp"
-        android:tint="@android:color/white"/>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -70,6 +58,8 @@
                 android:layout_below="@id/avatar_details_contact"
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="5dp"
+                android:textStyle="bold"
+                android:textSize="15dp"
                 android:text="@string/num_indic" />
 
             <TextView
@@ -80,7 +70,6 @@
                 android:layout_toRightOf="@id/indic_numero"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
-                android:textStyle="bold"
                 android:text="@string/numero" />
 
             <TextView
@@ -90,6 +79,8 @@
                 android:layout_below="@id/details_numero"
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="5dp"
+                android:textStyle="bold"
+                android:textSize="15dp"
                 android:text="@string/address_indic" />
 
             <TextView
@@ -110,6 +101,8 @@
                 android:layout_below="@id/details_domicile"
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="5dp"
+                android:textStyle="bold"
+                android:textSize="15dp"
                 android:text="@string/anniv_indic" />
 
             <TextView
@@ -125,4 +118,16 @@
                 android:text="@string/birthday" />
         </RelativeLayout>
     </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_details_contact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:onClick="start_modif_contact"
+        app:elevation="8dp"
+        app:fabSize="normal"
+        app:srcCompat="@drawable/ic_edit_black_24dp"
+        android:tint="@android:color/white"/>
 </android.support.design.widget.CoordinatorLayout>

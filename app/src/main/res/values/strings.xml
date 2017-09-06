@@ -44,5 +44,9 @@
     <string name="address_indic">"Address: "</string>
     <string name="not_suppliedf">Not supplied</string>
     <string name="not_suppliedm">Not supplied</string>
+    <string name="call">Call</string>
+    <string name="send_a_message">Send a message</string>
+    <string name="delete">Delete</string>
+    <string name="edit_contact">Edit contact</string>
 
 </resources>

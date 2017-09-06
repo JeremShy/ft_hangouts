@@ -29,8 +29,10 @@ public class PreferencesActivity extends AppCompatActivity {
     public static PreferencesActivity pref;
     public static Resources res;
     public static final String INTENT_EXTRA_CHANGED = "intent_extra_changed";
+    public static Intent intent;
 
     protected void  onCreate(Bundle savedInstanceState) {
+        Log.e("Error", "Starting onCreate from preferences");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pref_with_toolbar);
 
@@ -43,6 +45,7 @@ public class PreferencesActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(getString(R.string.settings));
 
         getFragmentManager().beginTransaction().replace(R.id.content_frame_pref, new SettingsFragment()).commit();
+        PreferencesActivity.intent = this.getIntent();
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -62,7 +65,6 @@ public class PreferencesActivity extends AppCompatActivity {
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
 
-            // Load the preferences from an XML resource
             addPreferencesFromResource(R.xml.preferences);
             Preference languagePref = findPreference(PREF_LANGUAGE);
             ListPreference lp = (ListPreference) findPreference(PREF_LANGUAGE);
@@ -77,6 +79,7 @@ public class PreferencesActivity extends AppCompatActivity {
             Configuration conf = getResources().getConfiguration();
             conf.locale = loc;
             getResources().updateConfiguration(conf, getResources().getDisplayMetrics());
+
             pref.recreate();
 
             Preference languagePref = findPreference(PREF_LANGUAGE);

@@ -1,10 +1,16 @@
 package fr.h3lp.jcamhi.ft_hangouts;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.TextViewCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,6 +22,10 @@ import static fr.h3lp.jcamhi.ft_hangouts.R.id.toolbar;
  */
 
 public class ContactDetailsActivity extends AppCompatActivity {
+    public static final int MODIFY_CONTACT = 1;
+    public static final String CONTACT_MODIFIED = "CONTACT_MODIFIED";
+    public static final String ID = "ID";
+
     private TextView _nom;
     private TextView _prenom;
     private TextView _numero;
@@ -44,17 +54,21 @@ public class ContactDetailsActivity extends AppCompatActivity {
         this._anniv = (TextView) findViewById(R.id.details_anniv);
 
         long id = getIntent().getLongExtra(MyAdapter.EXTRA_ID, -1);
-        if (id == -1)
+        if (id == -1) {
             finish();
+            return;
+        }
 
         ContactDAO dao = DatabaseSingleton.getDao(this);
         this._contact = dao.getContact(id);
-        if (this._contact == null)
+        if (this._contact == null) {
             finish();
+            return;
+        }
         this._nom.setText(this._contact.get_nom());
         this._prenom.setText(this._contact.get_prenom());
         this._numero.setText(this._contact.get_numero());
-        if (_contact.get_domicile() != "" && !this._contact.get_domicile().isEmpty())
+        if (!_contact.get_domicile().equals("") && !this._contact.get_domicile().isEmpty())
             this._domicile.setText(this._contact.get_domicile());
         else {
             this._domicile.setText(getString(R.string.not_suppliedf));
@@ -68,14 +82,48 @@ public class ContactDetailsActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_details_contact, menu);
+        return true;
+    }
+
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 this.setResult(RESULT_CANCELED);
                 this.finish();
                 return true;
+            case R.id.action_call:
+                this.callContact();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public void callContact() {
+        Intent phoneIntent = new Intent(Intent.ACTION_CALL);
+        Log.e("pouet", Uri.parse(_contact.get_numero()).toString());
+        phoneIntent.setData(Uri.parse("tel:" + _contact.get_numero()));
+        if (phoneIntent.resolveActivity(getPackageManager()) != null)
+            startActivity(phoneIntent);
+    }
+
+    public void start_modif_contact(View v) {
+        Intent intent = new Intent(ContactDetailsActivity.this, EditContactActivity.class);
+        intent.putExtra(ContactDetailsActivity.ID, this._contact.get_id());
+        this.startActivityForResult(intent, ContactDetailsActivity.MODIFY_CONTACT);
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case ContactDetailsActivity.MODIFY_CONTACT :
+                if (resultCode == RESULT_OK && data != null) {
+                    if (data.getBooleanExtra(ContactDetailsActivity.CONTACT_MODIFIED, false))
+                        this.recreate();
+                }
+                break;
         }
     }
 }

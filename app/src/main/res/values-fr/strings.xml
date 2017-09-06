@@ -34,4 +34,8 @@
     <string name="address_indic">"Addresse : "</string>
     <string name="not_suppliedf">Non renseigné</string>
     <string name="not_suppliedm">Non renseignée</string>
+    <string name="call">Appeler</string>
+    <string name="send_a_message">Envoyer un message</string>
+    <string name="delete">Supprimer</string>
+    <string name="edit_contact">Éditer un contact</string>
 </resources>

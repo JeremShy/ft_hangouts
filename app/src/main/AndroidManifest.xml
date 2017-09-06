@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="fr.h3lp.jcamhi.ft_hangouts">
 
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -27,6 +29,9 @@
         </activity>
         <activity
             android:name=".ContactDetailsActivity">
+        </activity>
+        <activity
+            android:name=".EditContactActivity">
         </activity>
     </application>
 

@@ -5,86 +5,100 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Intent;
-import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-import java.text.SimpleDateFormat;
-
-
-import org.w3c.dom.Text;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import static android.app.Activity.RESULT_OK;
-
 /**
- * Created by jcamhi on 9/4/17.
+ * Created by jcamhi on 9/6/17.
  */
 
-public class AddContactActivity extends AppCompatActivity {
-    private static final String EXTRA_ID = "id";
+public class EditContactActivity extends AppCompatActivity {
+    private EditText _nom;
+    private EditText _prenom;
+    private EditText _numero;
+    private EditText _domicile;
+    private EditText _anniv;
+    private Contact _contact;
+
     private static Date _date;
 
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_contact);
+    protected void onCreate(Bundle savedInstance) {
+        super.onCreate(savedInstance);
+        this.setContentView(R.layout.edit_contact);
 
-        AddContactActivity._date = null;
-
-        this.setResult(RESULT_CANCELED);
+        final TextInputLayout prenom_layout, nom_layout, numero_layout;
 
         android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(getString(R.string.add_a_contact));
+        getSupportActionBar().setTitle(getString(R.string.edit_contact));
 
 
-        ImageView iv = (ImageView)findViewById(R.id.avatar_page_contact);
-        iv.setImageDrawable(getDrawable(R.mipmap.ic_person));
-
-        final EditText prenom, nom, numero, anniversaire;
-        final TextInputLayout prenom_layout, nom_layout, numero_layout;
-
-        prenom = (EditText)findViewById(R.id.edit_prenom);
-        nom = (EditText)findViewById(R.id.edit_nom);
-        numero = (EditText)findViewById(R.id.edit_numero);
-        anniversaire = (EditText)findViewById(R.id.edit_anniversaire);
+        this._nom = (EditText) findViewById(R.id.edit_nom);
+        this._prenom = (EditText) findViewById(R.id.edit_prenom);
+        this._numero = (EditText) findViewById(R.id.edit_numero);
+        this._domicile = (EditText) findViewById(R.id.edit_domicile);
+        this._anniv = (EditText) findViewById(R.id.edit_anniversaire);
 
         prenom_layout = (TextInputLayout) findViewById(R.id.edit_prenom_layout);
         nom_layout = (TextInputLayout) findViewById(R.id.edit_nom_layout);
         numero_layout = (TextInputLayout) findViewById(R.id.edit_numero_layout);
 
-        prenom.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-           @Override
+
+        long id = getIntent().getLongExtra(ContactDetailsActivity.ID, -1);
+        if (id == -1) {
+            finish();
+            return;
+        }
+        ContactDAO dao = DatabaseSingleton.getDao(this);
+        this._contact = dao.getContact(id);
+        if (this._contact == null) {
+            finish();
+            return;
+        }
+        this._nom.setText(this._contact.get_nom());
+        this._prenom.setText(this._contact.get_prenom());
+        this._numero.setText(this._contact.get_numero());
+        if (!_contact.get_domicile().equals("") && !this._contact.get_domicile().isEmpty())
+            this._domicile.setText(this._contact.get_domicile());
+        else {
+        }
+        if (_contact.get_anniversaire() != null)
+            this._anniv.setText(this._contact.get_anniv_as_str());
+        else {
+        }
+
+        _prenom.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
             public void onFocusChange(View view, boolean b) {
-               prenom_layout.setError(null);
-               prenom_layout.setHint(getString(R.string.prenom_hint));
+                prenom_layout.setError(null);
+                prenom_layout.setHint(getString(R.string.prenom_hint));
             }
         });
-        nom.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+         _nom.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
                 nom_layout.setError(null);
                 nom_layout.setHint(getString(R.string.nom_hint));
             }
         });
-        numero.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        _numero.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
                 numero_layout.setError(null);
@@ -92,7 +106,7 @@ public class AddContactActivity extends AppCompatActivity {
             }
         });
 
-        anniversaire.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        _anniv.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
                 if (b) {
@@ -101,7 +115,6 @@ public class AddContactActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -115,7 +128,6 @@ public class AddContactActivity extends AppCompatActivity {
         }
     }
 
-
     public void showDatePickerDialog(View v) {
         InputMethodManager imm = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
         View view = this.getCurrentFocus();
@@ -123,66 +135,8 @@ public class AddContactActivity extends AppCompatActivity {
             view = new View(this);
         }
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        DialogFragment newFragment = new DatePickerFragment();
+        DialogFragment newFragment = new EditContactActivity.DatePickerFragment();
         newFragment.show(getFragmentManager(), "datePicker");
-    }
-
-    public void add_contact(View v) {
-        boolean error = false;
-        EditText prenom, nom, numero, domicile, anniversaire;
-        TextInputLayout prenom_layout, nom_layout, numero_layout, domicile_layout, anniversaire_layout;
-
-        prenom = (EditText) findViewById(R.id.edit_prenom);
-        nom = (EditText) findViewById(R.id.edit_nom);
-        numero = (EditText) findViewById(R.id.edit_numero);
-        domicile = (EditText) findViewById(R.id.edit_domicile);
-        anniversaire = (EditText) findViewById(R.id.edit_anniversaire);
-
-        View cur = getCurrentFocus();
-        if (cur != null)
-            cur.clearFocus();
-
-        prenom_layout = (TextInputLayout) findViewById(R.id.edit_prenom_layout);
-        nom_layout = (TextInputLayout) findViewById(R.id.edit_nom_layout);
-        numero_layout = (TextInputLayout) findViewById(R.id.edit_numero_layout);
-        domicile_layout = (TextInputLayout) findViewById(R.id.edit_domicile_layout);
-        anniversaire_layout = (TextInputLayout) findViewById(R.id.edit_anniversaire_layout);
-
-        if (this.isEmpty(prenom)) {
-            prenom_layout.setError(getString(R.string.error_prenom));
-            prenom_layout.setHint(null);
-            error = true;
-        }
-        if (this.isEmpty(nom)) {
-            nom_layout.setError(getString(R.string.error_nom));
-            nom_layout.setHint(null);
-            error = true;
-        }
-        if (this.isEmpty(numero)) {
-            numero_layout.setError(getString(R.string.error_numero));
-            numero_layout.setHint(null);
-            error = true;
-        }
-        if (error)
-            return ;
-
-        Contact cont = DatabaseSingleton.getDao(this).createContact(
-                nom.getText().toString(),
-                prenom.getText().toString(),
-                numero.getText().toString(),
-                domicile.getText().toString(),
-                AddContactActivity._date);
-
-        Intent result = new Intent();
-        result.putExtra(EXTRA_ID, cont.get_id());
-        this.setResult(RESULT_OK, result);
-        this.finish();
-    }
-
-    private boolean isEmpty(EditText etText) {
-        if (etText.getText().toString().trim().length() > 0)
-            return false;
-        return true;
     }
 
     public static class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
@@ -211,7 +165,63 @@ public class AddContactActivity extends AppCompatActivity {
             ed.clearFocus();
             lay.clearFocus();
 
-            AddContactActivity._date = d;
+            EditContactActivity._date = d;
         }
+    }
+
+    public void edit_contact(View v) {
+        boolean error = false;
+        EditText prenom, nom, numero, domicile;
+        TextInputLayout prenom_layout, nom_layout, numero_layout;
+
+        prenom = (EditText) findViewById(R.id.edit_prenom);
+        nom = (EditText) findViewById(R.id.edit_nom);
+        numero = (EditText) findViewById(R.id.edit_numero);
+        domicile = (EditText) findViewById(R.id.edit_domicile);
+
+        View cur = getCurrentFocus();
+        if (cur != null)
+            cur.clearFocus();
+
+        prenom_layout = (TextInputLayout) findViewById(R.id.edit_prenom_layout);
+        nom_layout = (TextInputLayout) findViewById(R.id.edit_nom_layout);
+        numero_layout = (TextInputLayout) findViewById(R.id.edit_numero_layout);
+
+        if (this.isEmpty(prenom)) {
+            prenom_layout.setError(getString(R.string.error_prenom));
+            prenom_layout.setHint(null);
+            error = true;
+        }
+        if (this.isEmpty(nom)) {
+            nom_layout.setError(getString(R.string.error_nom));
+            nom_layout.setHint(null);
+            error = true;
+        }
+        if (this.isEmpty(numero)) {
+            numero_layout.setError(getString(R.string.error_numero));
+            numero_layout.setHint(null);
+            error = true;
+        }
+        if (error)
+            return ;
+
+        DatabaseSingleton.getDao(this).updateContact(
+                this._contact.get_id(),
+                nom.getText().toString(),
+                prenom.getText().toString(),
+                numero.getText().toString(),
+                domicile.getText().toString(),
+                EditContactActivity._date);
+
+        Intent result = new Intent();
+        result.putExtra(ContactDetailsActivity.CONTACT_MODIFIED, true);
+        this.setResult(RESULT_OK, result);
+        this.finish();
+    }
+
+    private boolean isEmpty(EditText etText) {
+        if (etText.getText().toString().trim().length() > 0)
+            return false;
+        return true;
     }
 }
