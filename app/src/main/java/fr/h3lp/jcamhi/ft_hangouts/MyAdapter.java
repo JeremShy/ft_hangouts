@@ -1,8 +1,10 @@
 package fr.h3lp.jcamhi.ft_hangouts;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -18,8 +20,12 @@ import java.util.List;
 
 class MyAdapter extends ArrayAdapter<Contact> {
 
+    public static final String EXTRA_ID = "1";
+    public Context _context;
+
     public MyAdapter(Context context, List<Contact> contacts){
         super(context, 0, contacts);
+        this._context = context;
     }
 
     @Override
@@ -42,6 +48,8 @@ class MyAdapter extends ArrayAdapter<Contact> {
         viewHolder.numero.setText(contact.get_numero());
         viewHolder.avatar.setImageDrawable(contact.get_avatar());
 
+        Long id = contact.get_id();
+        viewHolder.id = id;
         return (convertView);
     }
 }

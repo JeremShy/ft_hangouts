@@ -28,4 +28,10 @@
     <string name="address">Addresse</string>
     <string name="birthday">Anniversaire</string>
     <string name="add_a_contact">Ajouter un contact</string>
+    <string name="contact_details">Détails du contact</string>
+    <string name="num_indic">"Numero de téléphone : "</string>
+    <string name="anniv_indic">"Anniversaire : "</string>
+    <string name="address_indic">"Addresse : "</string>
+    <string name="not_suppliedf">Non renseigné</string>
+    <string name="not_suppliedm">Non renseignée</string>
 </resources>

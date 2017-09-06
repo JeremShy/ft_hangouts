@@ -10,5 +10,6 @@ class ContactViewHolder {
     public TextView nom_prenom;
     public TextView numero;
     public ImageView avatar;
+    public long id;
 }
 

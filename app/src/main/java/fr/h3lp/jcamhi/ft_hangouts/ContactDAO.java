@@ -90,6 +90,8 @@ public class ContactDAO {
     public Contact getContact(long id) {
         Cursor cursor = this._database.query(MySQLiteHelper.TABLE_CONTACTS, allColumns, MySQLiteHelper.COL_ID + " = " + id, null, null, null, null);
         cursor.moveToFirst();
+        if (cursor.isAfterLast() || cursor.isBeforeFirst())
+            return (null);
         Contact ret = this.cursorToContact(cursor);
         cursor.close();
         return ret;

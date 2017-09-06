@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:layout_height="fill_parent"
+    android:layout_width="fill_parent"
+    android:id="@+id/coor_add">
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_details_contact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:onClick="add_contact"
+        app:elevation="8dp"
+        app:fabSize="normal"
+        app:srcCompat="@drawable/ic_add_black_24dp"
+        android:tint="@android:color/white"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+
+            <ImageView
+                android:id="@+id/avatar_details_contact"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_margin="15dp" />
+
+            <TextView
+                android:id="@+id/details_nom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/avatar_details_contact"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="10dp"
+                android:textSize="30dp"
+                android:layout_toEndOf="@id/avatar_details_contact"
+                android:text="@string/nom" />
+
+            <TextView
+                android:id="@+id/details_prenom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/avatar_details_contact"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="50dp"
+                android:layout_toEndOf="@id/avatar_details_contact"
+                android:text="@string/prenom" />
+
+            <TextView
+                android:id="@+id/indic_numero"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/avatar_details_contact"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="5dp"
+                android:text="@string/num_indic" />
+
+            <TextView
+                android:id="@+id/details_numero"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/avatar_details_contact"
+                android:layout_toRightOf="@id/indic_numero"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:textStyle="bold"
+                android:text="@string/numero" />
+
+            <TextView
+                android:id="@+id/domicile_indic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/details_numero"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="5dp"
+                android:text="@string/address_indic" />
+
+            <TextView
+                android:id="@+id/details_domicile"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/indic_numero"
+                android:layout_toRightOf="@id/domicile_indic"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/address" />
+
+            <TextView
+                android:id="@+id/anniv_indic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/details_domicile"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="5dp"
+                android:text="@string/anniv_indic" />
+
+            <TextView
+                android:id="@+id/details_anniv"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/details_domicile"
+                android:layout_toRightOf="@id/anniv_indic"
+                android:layout_centerHorizontal="true"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/birthday" />
+        </RelativeLayout>
+    </LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

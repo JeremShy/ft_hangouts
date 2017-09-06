@@ -24,7 +24,9 @@
         <activity
             android:name=".AddContactActivity"
             android:windowSoftInputMode="stateAlwaysHidden">
-
+        </activity>
+        <activity
+            android:name=".ContactDetailsActivity">
         </activity>
     </application>
 

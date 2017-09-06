@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -70,6 +71,20 @@ public class MainActivity extends AppCompatActivity {
         this._contacts = this.getContacts();
         _adapter = new MyAdapter(MainActivity.this, this._contacts);
         _listView.setAdapter(_adapter);
+        _listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                long id;
+
+                ContactViewHolder hold = (ContactViewHolder) view.getTag();
+                if (hold == null)
+                    return ;
+                Intent intent = new Intent(MainActivity.this, ContactDetailsActivity.class);
+                intent.putExtra(MyAdapter.EXTRA_ID, hold.id);
+                startActivity(intent);
+                return ;
+            }
+        });
 
 
     }
@@ -131,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(intent, CONTACT_ADDED);
     }
 
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == LANGUAGE_CHANGED) {
             this.recreate();
         } else if (requestCode == CONTACT_ADDED) {
