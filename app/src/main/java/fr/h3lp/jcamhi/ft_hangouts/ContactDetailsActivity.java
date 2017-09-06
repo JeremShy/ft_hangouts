@@ -107,7 +107,11 @@ public class ContactDetailsActivity extends AppCompatActivity {
         Log.e("pouet", Uri.parse(_contact.get_numero()).toString());
         phoneIntent.setData(Uri.parse("tel:" + _contact.get_numero()));
         if (phoneIntent.resolveActivity(getPackageManager()) != null)
-            startActivity(phoneIntent);
+            try {
+                startActivity(phoneIntent);
+            } catch (SecurityException e){
+                Log.e("Exception", "ERROR ! SECURITY EXCEPTION: " + e.getLocalizedMessage());
+            }
     }
 
     public void start_modif_contact(View v) {
