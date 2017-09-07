@@ -36,6 +36,9 @@
             android:name=".EditContactActivity"
             android:label="@string/edit_contact">
         </activity>
+        <activity
+            android:name=".SMSActivity">
+        </activity>
     </application>
 
 </manifest>

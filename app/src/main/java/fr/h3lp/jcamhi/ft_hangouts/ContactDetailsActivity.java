@@ -97,6 +97,11 @@ public class ContactDetailsActivity extends AppCompatActivity {
             case R.id.action_call:
                 this.callContact();
                 return true;
+            case R.id.action_message:
+                Intent intent = new Intent(ContactDetailsActivity.this, SMSActivity.class);
+                intent.putExtra(MyAdapter.EXTRA_ID, this._contact.get_id());
+                startActivity(intent);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

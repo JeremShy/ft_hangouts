@@ -74,8 +74,6 @@ public class MainActivity extends AppCompatActivity {
         _listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                long id;
-
                 ContactViewHolder hold = (ContactViewHolder) view.getTag();
                 if (hold == null)
                     return ;
