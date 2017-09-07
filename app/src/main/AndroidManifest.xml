@@ -18,7 +18,6 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".PreferencesActivity"
@@ -26,13 +25,16 @@
         </activity>
         <activity
             android:name=".AddContactActivity"
-            android:windowSoftInputMode="stateAlwaysHidden">
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:label="@string/adding_contact">
         </activity>
         <activity
-            android:name=".ContactDetailsActivity">
+            android:name=".ContactDetailsActivity"
+            android:label="@string/contact_details">
         </activity>
         <activity
-            android:name=".EditContactActivity">
+            android:name=".EditContactActivity"
+            android:label="@string/edit_contact">
         </activity>
     </application>
 
