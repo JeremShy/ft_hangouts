@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
         _toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(_toolbar);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+//        getSupportActionBar().setDisplayShowHomeEnabled(true); // ?
 
         DatabaseSingleton.getDao(this).open();
 

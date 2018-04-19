@@ -132,7 +132,7 @@ public class ContactDAO {
                 cursor.getString(cursor.getColumnIndex(MySQLiteHelper.COL_NOM)),
                 cursor.getString(cursor.getColumnIndex(MySQLiteHelper.COL_PRENOM)),
                 cursor.getString(cursor.getColumnIndex(MySQLiteHelper.COL_NUMERO)),
-                ResourcesCompat.getDrawable(this._context.getResources(), R.mipmap.ic_person, null),
+                ResourcesCompat.getDrawable(this._context.getResources(), R.mipmap.ic_person, null), // Contact's picture.
                 cursor.getString(cursor.getColumnIndex(MySQLiteHelper.COL_DOMICILE)),
                 d);
         return (contact);

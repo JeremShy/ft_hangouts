@@ -32,8 +32,8 @@
     <string name="num_indic">"Numero de téléphone : "</string>
     <string name="anniv_indic">"Anniversaire : "</string>
     <string name="address_indic">"Addresse : "</string>
-    <string name="not_suppliedf">Non renseigné</string>
-    <string name="not_suppliedm">Non renseignée</string>
+    <string name="not_suppliedf">Non renseignée</string>
+    <string name="not_suppliedm">Non renseigné</string>
     <string name="call">Appeler</string>
     <string name="send_a_message">Envoyer un message</string>
     <string name="delete">Supprimer</string>
