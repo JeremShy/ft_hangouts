@@ -20,7 +20,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "contacts.db";
     public static final int DATABASE_VERSION = 1;
-
+ 
     private static final String DATABASE_CREATE = "create table "
             + MySQLiteHelper.TABLE_CONTACTS + "("
             + MySQLiteHelper.COL_ID + " integer primary key autoincrement, "
