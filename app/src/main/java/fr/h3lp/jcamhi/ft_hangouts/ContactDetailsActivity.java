@@ -1,11 +1,8 @@
 package fr.h3lp.jcamhi.ft_hangouts;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
-import android.support.v4.widget.TextViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -13,9 +10,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import static fr.h3lp.jcamhi.ft_hangouts.R.id.toolbar;
+import java.util.Objects;
 
 /**
  * Created by jcamhi on 9/6/17.
@@ -23,14 +19,9 @@ import static fr.h3lp.jcamhi.ft_hangouts.R.id.toolbar;
 
 public class ContactDetailsActivity extends AppCompatActivity {
     public static final int MODIFY_CONTACT = 1;
-    public static final String CONTACT_MODIFIED = "CONTACT_MODIFIED";
-    public static final String ID = "ID";
+    public static final String CONTACT_MODIFIED = "CONTACT_MODIFIED"; //NON-NLS
+    public static final String ID = "ID"; //NON-NLS
 
-    private TextView _nom;
-    private TextView _prenom;
-    private TextView _numero;
-    private TextView _domicile;
-    private TextView _anniv;
     private Contact _contact;
 
     @Override
@@ -41,17 +32,17 @@ public class ContactDetailsActivity extends AppCompatActivity {
         android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(getString(R.string.contact_details));
         ImageView i = (ImageView) findViewById(R.id.avatar_details_contact);
         i.setImageDrawable(getDrawable(R.mipmap.ic_person));
 
-        this._nom = (TextView) findViewById(R.id.details_nom);
-        this._prenom = (TextView) findViewById(R.id.details_prenom);
-        this._numero = (TextView) findViewById(R.id.details_numero);
-        this._domicile = (TextView) findViewById(R.id.details_domicile);
-        this._anniv = (TextView) findViewById(R.id.details_anniv);
+        TextView _nom = (TextView) findViewById(R.id.details_nom);
+        TextView _prenom = (TextView) findViewById(R.id.details_prenom);
+        TextView _numero = (TextView) findViewById(R.id.details_numero);
+        TextView _domicile = (TextView) findViewById(R.id.details_domicile);
+        TextView _anniv = (TextView) findViewById(R.id.details_anniv);
 
         long id = getIntent().getLongExtra(MyAdapter.EXTRA_ID, -1);
         if (id == -1) {
@@ -65,20 +56,20 @@ public class ContactDetailsActivity extends AppCompatActivity {
             finish();
             return;
         }
-        this._nom.setText(this._contact.get_nom());
-        this._prenom.setText(this._contact.get_prenom());
-        this._numero.setText(this._contact.get_numero());
+        _nom.setText(this._contact.get_nom());
+        _prenom.setText(this._contact.get_prenom());
+        _numero.setText(this._contact.get_numero());
         if (!_contact.get_domicile().equals("") && !this._contact.get_domicile().isEmpty())
-            this._domicile.setText(this._contact.get_domicile());
+            _domicile.setText(this._contact.get_domicile());
         else {
-            this._domicile.setText(getString(R.string.not_suppliedf));
-            this._domicile.setAlpha(150f / 255f);
+            _domicile.setText(getString(R.string.not_suppliedf));
+            _domicile.setAlpha(150f / 255f);
         }
         if (_contact.get_anniversaire() != null)
-            this._anniv.setText(this._contact.get_anniv_as_str());
+            _anniv.setText(this._contact.get_anniv_as_str());
         else {
-            this._anniv.setText(getString(R.string.not_suppliedm));
-            this._anniv.setAlpha(150f / 255f);
+            _anniv.setText(getString(R.string.not_suppliedm));
+            _anniv.setAlpha(150f / 255f);
         }
     }
 
@@ -109,13 +100,13 @@ public class ContactDetailsActivity extends AppCompatActivity {
 
     public void callContact() {
         Intent phoneIntent = new Intent(Intent.ACTION_CALL);
-        Log.e("pouet", Uri.parse(_contact.get_numero()).toString());
-        phoneIntent.setData(Uri.parse("tel:" + _contact.get_numero()));
+        Log.e("pouet", Uri.parse(_contact.get_numero()).toString()); //NON-NLS
+        phoneIntent.setData(Uri.parse("tel:" + _contact.get_numero())); //NON-NLS
         if (phoneIntent.resolveActivity(getPackageManager()) != null)
             try {
                 startActivity(phoneIntent);
             } catch (SecurityException e){
-                Log.e("Exception", "ERROR ! SECURITY EXCEPTION: " + e.getLocalizedMessage());
+                Log.e("Exception", "ERROR ! SECURITY EXCEPTION: " + e.getLocalizedMessage()); //NON-NLS
             }
     }
 

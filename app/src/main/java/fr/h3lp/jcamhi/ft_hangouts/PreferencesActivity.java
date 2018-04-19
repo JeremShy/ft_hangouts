@@ -1,8 +1,5 @@
 package fr.h3lp.jcamhi.ft_hangouts;
 
-import android.app.ActionBar;
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
@@ -13,26 +10,23 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import java.util.Locale;
-
-import static fr.h3lp.jcamhi.ft_hangouts.R.string.settings;
+import java.util.Objects;
 
 public class PreferencesActivity extends AppCompatActivity {
 
     public static PreferencesActivity pref;
     public static Resources res;
-    public static final String INTENT_EXTRA_CHANGED = "intent_extra_changed";
+    @SuppressWarnings("unused")
+    public static final String INTENT_EXTRA_CHANGED = "intent_extra_changed"; //NON-NLS
     public static Intent intent;
 
     protected void  onCreate(Bundle savedInstanceState) {
-        Log.e("Error", "Starting onCreate from preferences");
+        Log.e("Error", "Starting onCreate from preferences"); //NON-NLS
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pref_with_toolbar);
 
@@ -40,7 +34,7 @@ public class PreferencesActivity extends AppCompatActivity {
         res = getApplicationContext().getResources();
         android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar_pref);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(getString(R.string.settings));
 
@@ -59,7 +53,7 @@ public class PreferencesActivity extends AppCompatActivity {
     }
 
     public static class SettingsFragment extends PreferenceFragment  implements OnSharedPreferenceChangeListener {
-        private static final String PREF_LANGUAGE = "pref_language";
+        private static final String PREF_LANGUAGE = "pref_language"; //NON-NLS
 
         @Override
         public void onCreate(Bundle savedInstanceState) {

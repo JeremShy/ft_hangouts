@@ -5,32 +5,25 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Objects;
 
 /**
  * Created by jcamhi on 9/6/17.
  */
 
 public class EditContactActivity extends AppCompatActivity {
-    private EditText _nom;
-    private EditText _prenom;
-    private EditText _numero;
-    private EditText _domicile;
-    private EditText _anniv;
     private Contact _contact;
 
     private static Date _date;
@@ -45,16 +38,16 @@ public class EditContactActivity extends AppCompatActivity {
 
         android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(getString(R.string.edit_contact));
 
 
-        this._nom = (EditText) findViewById(R.id.edit_nom);
-        this._prenom = (EditText) findViewById(R.id.edit_prenom);
-        this._numero = (EditText) findViewById(R.id.edit_numero);
-        this._domicile = (EditText) findViewById(R.id.edit_domicile);
-        this._anniv = (EditText) findViewById(R.id.edit_anniversaire);
+        EditText _nom = (EditText) findViewById(R.id.edit_nom);
+        EditText _prenom = (EditText) findViewById(R.id.edit_prenom);
+        EditText _numero = (EditText) findViewById(R.id.edit_numero);
+        EditText _domicile = (EditText) findViewById(R.id.edit_domicile);
+        EditText _anniv = (EditText) findViewById(R.id.edit_anniversaire);
 
         prenom_layout = (TextInputLayout) findViewById(R.id.edit_prenom_layout);
         nom_layout = (TextInputLayout) findViewById(R.id.edit_nom_layout);
@@ -72,17 +65,13 @@ public class EditContactActivity extends AppCompatActivity {
             finish();
             return;
         }
-        this._nom.setText(this._contact.get_nom());
-        this._prenom.setText(this._contact.get_prenom());
-        this._numero.setText(this._contact.get_numero());
+        _nom.setText(this._contact.get_nom());
+        _prenom.setText(this._contact.get_prenom());
+        _numero.setText(this._contact.get_numero());
         if (!_contact.get_domicile().equals("") && !this._contact.get_domicile().isEmpty())
-            this._domicile.setText(this._contact.get_domicile());
-        else {
-        }
+            _domicile.setText(this._contact.get_domicile());
         if (_contact.get_anniversaire() != null)
-            this._anniv.setText(this._contact.get_anniv_as_str());
-        else {
-        }
+            _anniv.setText(this._contact.get_anniv_as_str());
 
         _prenom.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -134,9 +123,11 @@ public class EditContactActivity extends AppCompatActivity {
         if (view == null) {
             view = new View(this);
         }
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
         DialogFragment newFragment = new EditContactActivity.DatePickerFragment();
-        newFragment.show(getFragmentManager(), "datePicker");
+        newFragment.show(getFragmentManager(), "datePicker"); //NON-NLS
     }
 
     public static class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
@@ -220,8 +211,6 @@ public class EditContactActivity extends AppCompatActivity {
     }
 
     private boolean isEmpty(EditText etText) {
-        if (etText.getText().toString().trim().length() > 0)
-            return false;
-        return true;
+        return etText.getText().toString().trim().length() <= 0;
     }
 }

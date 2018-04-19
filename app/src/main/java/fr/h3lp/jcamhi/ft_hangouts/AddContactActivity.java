@@ -5,11 +5,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
@@ -18,25 +14,18 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
-import java.text.SimpleDateFormat;
-
-
-import org.w3c.dom.Text;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-
-import static android.app.Activity.RESULT_OK;
+import java.util.Objects;
 
 /**
  * Created by jcamhi on 9/4/17.
  */
 
 public class AddContactActivity extends AppCompatActivity {
-    private static final String EXTRA_ID = "id";
+    private static final String EXTRA_ID = "id"; //NON-NLS
     private static Date _date;
 
     @Override
@@ -50,7 +39,7 @@ public class AddContactActivity extends AppCompatActivity {
 
         android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(getString(R.string.add_a_contact));
 
@@ -122,21 +111,20 @@ public class AddContactActivity extends AppCompatActivity {
         if (view == null) {
             view = new View(this);
         }
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        Objects.requireNonNull(imm).hideSoftInputFromWindow(view.getWindowToken(), 0);
         DialogFragment newFragment = new DatePickerFragment();
-        newFragment.show(getFragmentManager(), "datePicker");
+        newFragment.show(getFragmentManager(), "datePicker"); //NON-NLS
     }
 
     public void add_contact(View v) {
         boolean error = false;
-        EditText prenom, nom, numero, domicile, anniversaire;
-        TextInputLayout prenom_layout, nom_layout, numero_layout, domicile_layout, anniversaire_layout;
+        EditText prenom, nom, numero, domicile;
+        TextInputLayout prenom_layout, nom_layout, numero_layout;
 
         prenom = (EditText) findViewById(R.id.edit_prenom);
         nom = (EditText) findViewById(R.id.edit_nom);
         numero = (EditText) findViewById(R.id.edit_numero);
         domicile = (EditText) findViewById(R.id.edit_domicile);
-        anniversaire = (EditText) findViewById(R.id.edit_anniversaire);
 
         View cur = getCurrentFocus();
         if (cur != null)
@@ -145,8 +133,6 @@ public class AddContactActivity extends AppCompatActivity {
         prenom_layout = (TextInputLayout) findViewById(R.id.edit_prenom_layout);
         nom_layout = (TextInputLayout) findViewById(R.id.edit_nom_layout);
         numero_layout = (TextInputLayout) findViewById(R.id.edit_numero_layout);
-        domicile_layout = (TextInputLayout) findViewById(R.id.edit_domicile_layout);
-        anniversaire_layout = (TextInputLayout) findViewById(R.id.edit_anniversaire_layout);
 
         if (this.isEmpty(prenom)) {
             prenom_layout.setError(getString(R.string.error_prenom));
@@ -180,9 +166,7 @@ public class AddContactActivity extends AppCompatActivity {
     }
 
     private boolean isEmpty(EditText etText) {
-        if (etText.getText().toString().trim().length() > 0)
-            return false;
-        return true;
+        return etText.getText().toString().trim().length() <= 0;
     }
 
     public static class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {

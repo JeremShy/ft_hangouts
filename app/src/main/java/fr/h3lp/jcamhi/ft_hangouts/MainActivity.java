@@ -1,44 +1,27 @@
 package fr.h3lp.jcamhi.ft_hangouts;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.preference.Preference;
-import android.preference.PreferenceActivity;
-import android.preference.PreferenceManager;
-import android.provider.ContactsContract;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String PREF_LANGUAGE = "pref_language";
-    public static final String ID_EXTRA = "id";
-    private Toolbar _toolbar;
-    private ListView _listView;
+    public static final String PREF_LANGUAGE = "pref_language"; //NON-NLS
+    public static final String ID_EXTRA = "id"; //NON-NLS
     private MyAdapter _adapter;
-
-    public List<Contact> get_contacts() {
-        return _contacts;
-    }
 
     private List<Contact> _contacts;
 
@@ -61,13 +44,13 @@ public class MainActivity extends AppCompatActivity {
 
         this.setContentView(R.layout.activity_main);
 
-        _toolbar = (Toolbar)findViewById(R.id.toolbar);
+        Toolbar _toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(_toolbar);
 //        getSupportActionBar().setDisplayShowHomeEnabled(true); // ?
 
         DatabaseSingleton.getDao(this).open();
 
-        _listView = (ListView) findViewById(R.id.list_view);
+        ListView _listView = (ListView) findViewById(R.id.list_view);
         this._contacts = this.getContacts();
         _adapter = new MyAdapter(MainActivity.this, this._contacts);
         _listView.setAdapter(_adapter);
@@ -80,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, ContactDetailsActivity.class);
                 intent.putExtra(MyAdapter.EXTRA_ID, hold.id);
                 startActivity(intent);
-                return ;
             }
         });
 
@@ -88,9 +70,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private List<Contact>getContacts() {
-        List<Contact> contacts = new ArrayList<Contact>();
-        contacts = DatabaseSingleton.getDao(this).getAllContacts();
-        return contacts;
+        return DatabaseSingleton.getDao(this).getAllContacts();
     }
 
     @Override
@@ -101,13 +81,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void  onPause() {
-//        DatabaseSingleton.getDao(this).close();
         super.onPause();
     }
 
     @Override
     protected void  onResume() {
-//        DatabaseSingleton.getDao(this).open();
         super.onResume();
     }
 
@@ -143,9 +121,9 @@ public class MainActivity extends AppCompatActivity {
         } else if (requestCode == CONTACT_ADDED) {
             if (resultCode == RESULT_OK && data != null) {
                 Long id = data.getLongExtra(ID_EXTRA, 0);
-                Log.e("fr", "id : " + Long.toString(id));
+                Log.e("fr", "id : " + Long.toString(id)); //NON-NLS
                 Contact cont = DatabaseSingleton.getDao(this).getContact(id);
-                Log.e("fr", "Adding contact : " + cont.get_nom_prenom());
+                Log.e("fr", "Adding contact : " + cont.get_nom_prenom()); //NON-NLS
                 this._contacts.add(cont);
                 this._adapter.notifyDataSetChanged();
             }

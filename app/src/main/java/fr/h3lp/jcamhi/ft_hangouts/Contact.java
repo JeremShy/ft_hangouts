@@ -1,12 +1,10 @@
 package fr.h3lp.jcamhi.ft_hangouts;
 
+import android.annotation.SuppressLint;
 import android.graphics.drawable.Drawable;
-import android.os.Parcel;
-import android.os.Parcelable;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 /**
  * Created by jcamhi on 9/3/17.
@@ -101,40 +99,20 @@ public class Contact {
         return _id;
     }
 
-    public void set_id(long _id) {
-        this._id = _id;
-    }
-
     public String get_nom() {
         return _nom;
-    }
-
-    public void set_nom(String _nom) {
-        this._nom = _nom;
     }
 
     public String get_prenom() {
         return _prenom;
     }
 
-    public void set_prenom(String _prenom) {
-        this._prenom = _prenom;
-    }
-
     public String get_numero() {
         return _numero;
     }
 
-    public void set_numero(String _numero) {
-        this._numero = _numero;
-    }
-
     public Drawable get_avatar() {
         return _avatar;
-    }
-
-    public void set_avatar(Drawable _avatar) {
-        this._avatar = _avatar;
     }
 
     public String get_nom_prenom() {
@@ -145,16 +123,8 @@ public class Contact {
         return _domicile;
     }
 
-    public void set_domicile(String _domicile) {
-        this._domicile = _domicile;
-    }
-
     public Date get_anniversaire() {
         return _anniversaire;
-    }
-
-    public void set_anniversaire(Date _anniversaire) {
-        this._anniversaire = _anniversaire;
     }
 
     public String get_anniv_as_str() {
@@ -162,9 +132,8 @@ public class Contact {
     }
 
     public static String get_date_as_str_stat(Date d) {
-        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-        String s = df.format(d);
-        return (s);
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy"); //NON-NLS
+        return (df.format(d));
     }
 
 }

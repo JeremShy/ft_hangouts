@@ -1,5 +1,6 @@
 package fr.h3lp.jcamhi.ft_hangouts;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 
 /**
@@ -7,6 +8,7 @@ import android.content.Context;
  */
 
 public class DatabaseSingleton {
+    @SuppressLint("StaticFieldLeak")
     private static ContactDAO _dao = null;
 
     public static synchronized ContactDAO getDao(Context context) {

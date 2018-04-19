@@ -1,13 +1,14 @@
 package fr.h3lp.jcamhi.ft_hangouts;
+
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 /**
  * Created by jcamhi on 9/5/17.
  */
 
+@SuppressWarnings("HardCodedStringLiteral")
 public class MySQLiteHelper extends SQLiteOpenHelper {
 
     public static final String TABLE_CONTACTS = "contacts";
@@ -18,9 +19,9 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public static final String COL_DOMICILE = "domicile";
     public static final String COL_ANNIVERSAIRE = "anniversaire";
 
-    public static final String DATABASE_NAME = "contacts.db";
-    public static final int DATABASE_VERSION = 1;
- 
+    private static final String DATABASE_NAME = "contacts.db";
+    private static final int DATABASE_VERSION = 1;
+
     private static final String DATABASE_CREATE = "create table "
             + MySQLiteHelper.TABLE_CONTACTS + "("
             + MySQLiteHelper.COL_ID + " integer primary key autoincrement, "
@@ -31,7 +32,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             + MySQLiteHelper.COL_ANNIVERSAIRE + " int not null"
             + ");";
 
-    public MySQLiteHelper(Context context) {
+    MySQLiteHelper(Context context) {
         super (context, MySQLiteHelper.DATABASE_NAME, null, MySQLiteHelper.DATABASE_VERSION);
     }
 

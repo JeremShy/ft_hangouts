@@ -8,6 +8,7 @@ import android.widget.TextView;
  * Created by jcamhi on 9/7/17.
  */
 
+@SuppressWarnings("ALL")
 public class SMSActivity extends AppCompatActivity {
     private TextView _nom;
     private TextView _prenom;
