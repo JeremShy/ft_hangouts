@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import java.util.Objects;
 
+import static fr.h3lp.jcamhi.ft_hangouts.MyAdapter.EXTRA_ID;
+
 /**
  * Created by jcamhi on 9/6/17.
  */
@@ -44,7 +46,7 @@ public class ContactDetailsActivity extends AppCompatActivity {
         TextView _domicile = (TextView) findViewById(R.id.details_domicile);
         TextView _anniv = (TextView) findViewById(R.id.details_anniv);
 
-        long id = getIntent().getLongExtra(MyAdapter.EXTRA_ID, -1);
+        long id = getIntent().getLongExtra(EXTRA_ID, -1);
         if (id == -1) {
             finish();
             return;
@@ -90,8 +92,11 @@ public class ContactDetailsActivity extends AppCompatActivity {
                 return true;
             case R.id.action_message:
                 Intent intent = new Intent(ContactDetailsActivity.this, SMSActivity.class);
-                intent.putExtra(MyAdapter.EXTRA_ID, this._contact.get_id());
+                intent.putExtra(EXTRA_ID, this._contact.get_id());
                 startActivity(intent);
+                return true;
+            case R.id.action_delete:
+                this.deleteContact();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -108,6 +113,17 @@ public class ContactDetailsActivity extends AppCompatActivity {
             } catch (SecurityException e){
                 Log.e("Exception", "ERROR ! SECURITY EXCEPTION: " + e.getLocalizedMessage()); //NON-NLS
             }
+    }
+
+    private void deleteContact() {
+        Log.e("ft_hangouts", "Delete contact clicked.");
+
+        Intent result = new Intent();
+        result.putExtra(EXTRA_ID, _contact.get_id());
+        DatabaseSingleton.getDao(this).deleteContact(this._contact);
+        this.setResult(RESULT_OK, result);
+        this.finish();
+
     }
 
     public void start_modif_contact(View v) {

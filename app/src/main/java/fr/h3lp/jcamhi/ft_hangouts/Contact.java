@@ -136,4 +136,19 @@ public class Contact {
         return (df.format(d));
     }
 
+    @Override
+    public boolean equals(Object rhs) {
+        if (rhs == null)
+            return false;
+        if (rhs == this)
+            return true;
+        if (!(rhs instanceof  Contact))
+            return false;
+        Contact rhsContact = (Contact)rhs;
+        if (rhsContact._id == this._id)
+            return true;
+        else
+            return false;
+    }
+
 }

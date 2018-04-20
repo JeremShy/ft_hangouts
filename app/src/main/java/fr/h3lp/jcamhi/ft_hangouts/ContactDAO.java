@@ -84,7 +84,6 @@ public class ContactDAO {
     }
 
 
-    @SuppressWarnings("unused")
     public void deleteContact(Contact contact) {
         long id = contact.get_id();
         _database.delete(MySQLiteHelper.TABLE_CONTACTS, MySQLiteHelper.COL_ID + " = " + id, null);

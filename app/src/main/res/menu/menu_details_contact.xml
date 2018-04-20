@@ -5,15 +5,17 @@
     tools:context=".ContactDetailsActivity">
 
     <item
-        android:id="@+id/action_message"
-        android:title="@string/send_a_message"
-        android:orderInCategory="1"
-        app:showAsAction="never" />
-    <item
         android:id="@+id/action_call"
         android:title="@string/call"
+        android:orderInCategory="1"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_call" />
+    <item
+        android:id="@+id/action_message"
+        android:title="@string/send_a_message"
         android:orderInCategory="2"
-        app:showAsAction="never" />
+        app:showAsAction="always"
+        android:icon="@drawable/ic_message"/>
     <item
         android:id="@+id/action_delete"
         android:title="@string/delete"

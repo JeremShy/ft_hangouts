@@ -116,7 +116,7 @@ public class AddContactActivity extends AppCompatActivity {
         newFragment.show(getFragmentManager(), "datePicker"); //NON-NLS
     }
 
-    public void add_contact(View v) {
+    public void add_contact(View v) { // Called on Fab click
         boolean error = false;
         EditText prenom, nom, numero, domicile;
         TextInputLayout prenom_layout, nom_layout, numero_layout;

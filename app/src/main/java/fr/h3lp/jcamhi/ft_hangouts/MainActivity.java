@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -17,6 +18,8 @@ import android.widget.ListView;
 import java.util.List;
 import java.util.Locale;
 
+import static fr.h3lp.jcamhi.ft_hangouts.MyAdapter.EXTRA_ID;
+
 public class MainActivity extends AppCompatActivity {
 
     public static final String PREF_LANGUAGE = "pref_language"; //NON-NLS
@@ -27,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     static final int LANGUAGE_CHANGED = 1;
     static final int CONTACT_ADDED = 2;
+    static final int CONTACT_CHANGED = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar _toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(_toolbar);
-//        getSupportActionBar().setDisplayShowHomeEnabled(true); // ?
 
         DatabaseSingleton.getDao(this).open();
 
@@ -61,8 +64,9 @@ public class MainActivity extends AppCompatActivity {
                 if (hold == null)
                     return ;
                 Intent intent = new Intent(MainActivity.this, ContactDetailsActivity.class);
-                intent.putExtra(MyAdapter.EXTRA_ID, hold.id);
-                startActivity(intent);
+                intent.putExtra(EXTRA_ID, hold.id);
+                //startActivity(intent);
+                startActivityForResult(intent, CONTACT_CHANGED);
             }
         });
 
@@ -125,6 +129,14 @@ public class MainActivity extends AppCompatActivity {
                 Contact cont = DatabaseSingleton.getDao(this).getContact(id);
                 Log.e("fr", "Adding contact : " + cont.get_nom_prenom()); //NON-NLS
                 this._contacts.add(cont);
+                this._adapter.notifyDataSetChanged();
+            }
+        } else if (requestCode == CONTACT_CHANGED) {
+            if (resultCode == RESULT_OK) {
+                Long id = data.getLongExtra(EXTRA_ID, 0);
+                Log.e("fr", "Removing contact " + Long.toString(id));
+                Contact fakeContact = new Contact(id, "", "", "", ResourcesCompat.getDrawable(this.getResources(), R.mipmap.ic_person, null));
+                this._contacts.remove(fakeContact);
                 this._adapter.notifyDataSetChanged();
             }
         }
