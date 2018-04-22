@@ -86,7 +86,33 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        return (true);
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        View defaultView = info.targetView;
+        ContactViewHolder holder = (ContactViewHolder) defaultView.getTag();
+        if (holder == null) {
+            Log.e("pouet","Error : Null holder.");
+            return (false);
+        }
+        switch (item.getItemId()) {
+            case R.id.main_context_menu_call:
+                ContactActions.callContact(this, holder.id);
+                return (true);
+            case R.id.main_context_menu_delete:
+                deleteContact(holder.id);
+                return (true);
+            default:
+                return (super.onContextItemSelected(item));
+        }
+    }
+
+    private void deleteContact(long id)
+    {
+        Contact contact = DatabaseSingleton.getDao(this).getContact(id);
+        if (contact == null)
+            return;
+        DatabaseSingleton.getDao(this).deleteContact(contact);
+        this._contacts.remove(contact);
+        this._adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -153,4 +179,10 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        ContactActions.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
 }

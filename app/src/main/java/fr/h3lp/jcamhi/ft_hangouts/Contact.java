@@ -150,5 +150,4 @@ public class Contact {
         else
             return false;
     }
-
 }

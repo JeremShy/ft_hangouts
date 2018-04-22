@@ -1,12 +1,7 @@
 package fr.h3lp.jcamhi.ft_hangouts;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -94,7 +89,7 @@ public class ContactDetailsActivity extends AppCompatActivity {
                 this.finish();
                 return true;
             case R.id.action_call:
-                this.callContact();
+                ContactActions.callContact(this, _contact.get_id());
                 return true;
             case R.id.action_message:
                 Intent intent = new Intent(ContactDetailsActivity.this, SMSActivity.class);
@@ -109,32 +104,9 @@ public class ContactDetailsActivity extends AppCompatActivity {
         }
     }
 
-    public void callContact() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED)
-        {
-            Log.e("pouet", "Asking for permission."); //NON-NLS
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CALL_PHONE}, MY_PERM_CALL_PHONE);
-            return ;
-        }
-        Intent phoneIntent = new Intent(Intent.ACTION_CALL);
-        Log.e("pouet", Uri.parse(_contact.get_numero()).toString()); //NON-NLS
-        phoneIntent.setData(Uri.parse("tel:" + _contact.get_numero())); //NON-NLS
-        if (phoneIntent.resolveActivity(getPackageManager()) != null)
-            try {
-                startActivity(phoneIntent);
-            } catch (SecurityException e){
-                Log.e("Exception", "ERROR ! SECURITY EXCEPTION: " + e.getLocalizedMessage()); //NON-NLS
-            }
-    }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        if (requestCode == MY_PERM_CALL_PHONE)
-        {
-            Log.e("pouet", "Received permission response.");
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                callContact();
-        }
+        ContactActions.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     private void deleteContact() {
