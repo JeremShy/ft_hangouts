@@ -1,8 +1,12 @@
 package fr.h3lp.jcamhi.ft_hangouts;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -23,6 +27,8 @@ public class ContactDetailsActivity extends AppCompatActivity {
     public static final int MODIFY_CONTACT = 1;
     public static final String CONTACT_MODIFIED = "CONTACT_MODIFIED"; //NON-NLS
     public static final String ID = "ID"; //NON-NLS
+
+    private static final int MY_PERM_CALL_PHONE = 0;
 
     private Contact _contact;
 
@@ -104,6 +110,12 @@ public class ContactDetailsActivity extends AppCompatActivity {
     }
 
     public void callContact() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED)
+        {
+            Log.e("pouet", "Asking for permission."); //NON-NLS
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CALL_PHONE}, MY_PERM_CALL_PHONE);
+            return ;
+        }
         Intent phoneIntent = new Intent(Intent.ACTION_CALL);
         Log.e("pouet", Uri.parse(_contact.get_numero()).toString()); //NON-NLS
         phoneIntent.setData(Uri.parse("tel:" + _contact.get_numero())); //NON-NLS
@@ -113,6 +125,16 @@ public class ContactDetailsActivity extends AppCompatActivity {
             } catch (SecurityException e){
                 Log.e("Exception", "ERROR ! SECURITY EXCEPTION: " + e.getLocalizedMessage()); //NON-NLS
             }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        if (requestCode == MY_PERM_CALL_PHONE)
+        {
+            Log.e("pouet", "Received permission response.");
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                callContact();
+        }
     }
 
     private void deleteContact() {
@@ -143,3 +165,35 @@ public class ContactDetailsActivity extends AppCompatActivity {
         }
     }
 }
+/*
+
+    --------- beginning of crash
+04-22 12:44:22.402 5879-5879/? E/AndroidRuntime: FATAL EXCEPTION: main
+    Process: fr.h3lp.jcamhi.ft_hangouts, PID: 5879
+    java.lang.RuntimeException: Unable to start activity ComponentInfo{fr.h3lp.jcamhi.ft_hangouts/fr.h3lp.jcamhi.ft_hangouts.ContactDetailsActivity}: java.lang.NullPointerException: Attempt to invoke virtual method 'android.database.Cursor android.database.sqlite.SQLiteDatabase.query(java.lang.String, java.lang.String[], java.lang.String, java.lang.String[], java.lang.String, java.lang.String, java.lang.String)' on a null object reference
+        at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:2665)
+        at android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:2726)
+        at android.app.ActivityThread.-wrap12(ActivityThread.java)
+        at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1477)
+        at android.os.Handler.dispatchMessage(Handler.java:102)
+        at android.os.Looper.loop(Looper.java:154)
+        at android.app.ActivityThread.main(ActivityThread.java:6119)
+        at java.lang.reflect.Method.invoke(Native Method)
+        at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:886)
+        at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:776)
+     Caused by: java.lang.NullPointerException: Attempt to invoke virtual method 'android.database.Cursor android.database.sqlite.SQLiteDatabase.query(java.lang.String, java.lang.String[], java.lang.String, java.lang.String[], java.lang.String, java.lang.String, java.lang.String)' on a null object reference
+        at fr.h3lp.jcamhi.ft_hangouts.ContactDAO.getContact(ContactDAO.java:108)
+        at fr.h3lp.jcamhi.ft_hangouts.ContactDetailsActivity.onCreate(ContactDetailsActivity.java:62)
+        at android.app.Activity.performCreate(Activity.java:6679)
+        at android.app.Instrumentation.callActivityOnCreate(Instrumentation.java:1118)
+        at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:2618)
+        at android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:2726) 
+        at android.app.ActivityThread.-wrap12(ActivityThread.java) 
+        at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1477) 
+        at android.os.Handler.dispatchMessage(Handler.java:102) 
+        at android.os.Looper.loop(Looper.java:154) 
+        at android.app.ActivityThread.main(ActivityThread.java:6119) 
+        at java.lang.reflect.Method.invoke(Native Method) 
+        at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:886) 
+        at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:776) 
+ */

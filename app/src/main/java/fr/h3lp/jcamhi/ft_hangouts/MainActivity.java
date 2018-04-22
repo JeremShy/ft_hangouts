@@ -9,7 +9,9 @@ import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -65,16 +67,26 @@ public class MainActivity extends AppCompatActivity {
                     return ;
                 Intent intent = new Intent(MainActivity.this, ContactDetailsActivity.class);
                 intent.putExtra(EXTRA_ID, hold.id);
-                //startActivity(intent);
                 startActivityForResult(intent, CONTACT_CHANGED);
             }
         });
-
-
+        registerForContextMenu(_listView);
     }
 
     private List<Contact>getContacts() {
         return DatabaseSingleton.getDao(this).getAllContacts();
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_context_main, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        return (true);
     }
 
     @Override
