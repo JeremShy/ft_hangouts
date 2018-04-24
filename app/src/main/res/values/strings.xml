@@ -48,5 +48,7 @@
     <string name="send_a_message">Send a message</string>
     <string name="delete">Delete</string>
     <string name="edit_contact">Edit contact</string>
+    <string name="enter_message">Enter message</string>
+    <string name="send_caps">SEND</string>
 
 </resources>

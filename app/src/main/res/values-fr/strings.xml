@@ -38,4 +38,6 @@
     <string name="send_a_message">Envoyer un message</string>
     <string name="delete">Supprimer</string>
     <string name="edit_contact">Éditer un contact</string>
+    <string name="enter_message">Entrer un message</string>
+    <string name="send_caps">ENVOYER</string>
 </resources>

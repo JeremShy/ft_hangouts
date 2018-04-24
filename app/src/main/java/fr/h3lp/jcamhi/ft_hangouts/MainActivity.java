@@ -100,6 +100,10 @@ public class MainActivity extends AppCompatActivity {
             case R.id.main_context_menu_delete:
                 deleteContact(holder.id);
                 return (true);
+            case R.id.main_context_menu_message:
+                Intent intent = new Intent(MainActivity.this, SMSActivity.class);
+                intent.putExtra(MyAdapter.EXTRA_ID, holder.id);
+                startActivity(intent);
             default:
                 return (super.onContextItemSelected(item));
         }

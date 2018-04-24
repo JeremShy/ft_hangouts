@@ -4,4 +4,6 @@
         android:id="@+id/main_context_menu_call"/>
     <item android:title="@string/delete"
         android:id="@+id/main_context_menu_delete"/>
+    <item android:title="@string/send_a_message"
+        android:id="@+id/main_context_menu_message"/>
 </menu>
