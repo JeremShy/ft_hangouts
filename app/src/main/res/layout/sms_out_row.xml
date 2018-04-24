@@ -9,4 +9,4 @@
     android:text="This is a message example. I would like to know, how are you ?"
     android:textColor="@android:color/white"
     android:id="@+id/sms_message_text"
-    android:background="@drawable/default_inc_background"/>
+    android:background="@drawable/default_out_background"/>

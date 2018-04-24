@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:focusable="true"
@@ -26,6 +27,7 @@
         android:layout_gravity="bottom"
         android:orientation="horizontal">
         <EditText
+            android:id="@+id/sms_message_edit"
             android:layout_height="match_parent"
             android:layout_width="match_parent"
             android:hint="@string/enter_message"
@@ -36,9 +38,11 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
             android:textColor="@android:color/holo_blue_dark"
-            android:text="@string/send_caps"/>
-
+            android:clickable="true"
+            android:focusable="true"
+            android:onClick="sendClickedSmsActivity"
+            android:background="?android:attr/selectableItemBackground"
+            android:text="@string/send_caps" />
     </LinearLayout>
 </LinearLayout>

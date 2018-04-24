@@ -1,8 +1,13 @@
 package fr.h3lp.jcamhi.ft_hangouts;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -14,13 +19,9 @@ import java.util.Objects;
 
 @SuppressWarnings("ALL")
 public class SMSActivity extends AppCompatActivity {
-    private TextView _nom;
-    private TextView _prenom;
-    private TextView _numero;
-    private TextView _domicile;
-    private TextView _anniv;
     private Contact _contact;
     private ListView _messagesList;
+    private EditText   _text;
 
 
     @Override
@@ -47,7 +48,7 @@ public class SMSActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(this._contact.get_nom_prenom());
 
         _messagesList = (ListView)findViewById(R.id.list_view_sms);
-
+        _text = (EditText)findViewById(R.id.sms_message_edit);
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -59,6 +60,12 @@ public class SMSActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void sendClickedSmsActivity(View v) {
+        Log.e("pouet", "sendClicked");
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(_text.getWindowToken(), 0);
     }
 
 }
