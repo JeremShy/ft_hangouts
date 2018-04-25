@@ -10,13 +10,21 @@ import android.content.Context;
 public class DatabaseSingleton {
     @SuppressLint("StaticFieldLeak")
     private static MySQLiteHelper _helper = null;
-    private static ContactDAO _dao = null;
+    private static ContactDAO _ContactDao = null;
+    private static SMSDAO _SMSDAO = null;
 
-    public static synchronized ContactDAO getDao(Context context) {
-        if (DatabaseSingleton._dao == null) {
-            DatabaseSingleton._dao = new ContactDAO(context.getApplicationContext());
+    public static synchronized ContactDAO getContactDao(Context context) {
+        if (DatabaseSingleton._ContactDao == null) {
+            DatabaseSingleton._ContactDao = new ContactDAO(context.getApplicationContext());
         }
-        return DatabaseSingleton._dao;
+        return DatabaseSingleton._ContactDao;
+    }
+
+    public static synchronized SMSDAO getSmsDao(Context context) {
+        if (DatabaseSingleton._SMSDAO == null) {
+            DatabaseSingleton._SMSDAO = new SMSDAO(context.getApplicationContext());
+        }
+        return DatabaseSingleton._SMSDAO;
     }
 
     public static synchronized MySQLiteHelper getSqliteHelper(Context context)

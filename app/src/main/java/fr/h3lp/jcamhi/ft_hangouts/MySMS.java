@@ -4,11 +4,13 @@ class MySMS {
     private Contact _destinataire;
     private boolean    _fromMe;
     private String  _message;
+    private int     _id;
 
-    public MySMS(Contact destinataire, boolean fromMe, String message) {
+    public MySMS(int id, boolean fromMe, String message, Contact destinataire) {
        _destinataire = destinataire;
        _fromMe = fromMe;
        _message = message;
+       _id = id;
     }
 
 
@@ -22,5 +24,9 @@ class MySMS {
 
     public String get_message() {
         return _message;
+    }
+
+    public int getId() {
+        return _id;
     }
 }

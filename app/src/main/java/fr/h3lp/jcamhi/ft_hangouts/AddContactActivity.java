@@ -152,7 +152,7 @@ public class AddContactActivity extends AppCompatActivity {
         if (error)
             return ;
 
-        Contact cont = DatabaseSingleton.getDao(this).createContact(
+        Contact cont = DatabaseSingleton.getContactDao(this).createContact(
                 nom.getText().toString(),
                 prenom.getText().toString(),
                 numero.getText().toString(),

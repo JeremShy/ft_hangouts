@@ -52,7 +52,7 @@ public class ContactDetailsActivity extends AppCompatActivity {
             return;
         }
 
-        ContactDAO dao = DatabaseSingleton.getDao(this);
+        ContactDAO dao = DatabaseSingleton.getContactDao(this);
         this._contact = dao.getContact(id);
         if (this._contact == null) {
             finish();
@@ -113,7 +113,7 @@ public class ContactDetailsActivity extends AppCompatActivity {
 
         Intent result = new Intent();
         result.putExtra(EXTRA_ID, _contact.get_id());
-        DatabaseSingleton.getDao(this).deleteContact(this._contact);
+        DatabaseSingleton.getContactDao(this).deleteContact(this._contact);
         this.setResult(RESULT_OK, result);
         this.finish();
 

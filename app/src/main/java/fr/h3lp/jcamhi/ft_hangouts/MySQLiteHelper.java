@@ -24,9 +24,10 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public static final String COL_ID_SMS = "_id";
     public static final String COL_DEST_SMS = "destinataire";
     public static final String COL_FROM_ME = "from_me";
+    public static final String COL_MESSAGE = "message";
 
     private static final String DATABASE_NAME = "ft_hangouts.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 3;
 
     private static final String CONTACT_CREATE = "create table "
             + MySQLiteHelper.TABLE_CONTACTS + "("
@@ -41,8 +42,9 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     private static final String SMS_CREATE = "create table "
             + MySQLiteHelper.TABLE_SMS + "("
             + MySQLiteHelper.COL_ID_SMS + " integer primary key autoincrement, "
-            + MySQLiteHelper.COL_DEST_SMS + " text not null, "
-            + MySQLiteHelper.COL_FROM_ME + " int not null"
+            + MySQLiteHelper.COL_DEST_SMS + " int not null, "
+            + MySQLiteHelper.COL_FROM_ME + " int not null,"
+            + MySQLiteHelper.COL_MESSAGE + "  text not null"
             + ");";
 
 
@@ -59,12 +61,14 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int old, int newV) {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " +  TABLE_CONTACTS); //NON-NLS
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " +  TABLE_SMS); //NON-NLS
         onCreate(sqLiteDatabase);
     }
 
     @Override
     public void onDowngrade(SQLiteDatabase sqLiteDatabase, int old, int newV) {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " +  TABLE_CONTACTS); //NON-NLS
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " +  TABLE_SMS); //NON-NLS
         onCreate(sqLiteDatabase);
     }
 

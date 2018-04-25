@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import java.util.Objects;
 
@@ -34,7 +33,7 @@ public class SMSActivity extends AppCompatActivity {
             finish();
             return;
         }
-        ContactDAO dao = DatabaseSingleton.getDao(this);
+        ContactDAO dao = DatabaseSingleton.getContactDao(this);
         this._contact = dao.getContact(id);
         if (this._contact == null) {
             finish();
@@ -64,8 +63,10 @@ public class SMSActivity extends AppCompatActivity {
 
     public void sendClickedSmsActivity(View v) {
         Log.e("pouet", "sendClicked");
-        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(_text.getWindowToken(), 0);
+//        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+//        imm.hideSoftInputFromWindow(_text.getWindowToken(), 0);
+        _text.clearFocus();
+        _text.setText("");
     }
 
 }

@@ -59,7 +59,7 @@ public class EditContactActivity extends AppCompatActivity {
             finish();
             return;
         }
-        ContactDAO dao = DatabaseSingleton.getDao(this);
+        ContactDAO dao = DatabaseSingleton.getContactDao(this);
         this._contact = dao.getContact(id);
         if (this._contact == null) {
             finish();
@@ -196,7 +196,7 @@ public class EditContactActivity extends AppCompatActivity {
         if (error)
             return ;
 
-        DatabaseSingleton.getDao(this).updateContact(
+        DatabaseSingleton.getContactDao(this).updateContact(
                 this._contact.get_id(),
                 nom.getText().toString(),
                 prenom.getText().toString(),

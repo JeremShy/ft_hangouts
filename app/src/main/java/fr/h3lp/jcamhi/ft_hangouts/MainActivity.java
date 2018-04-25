@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar _toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(_toolbar);
 
-        DatabaseSingleton.getDao(this).open();
+        DatabaseSingleton.getContactDao(this).open();
 
         ListView _listView = (ListView) findViewById(R.id.list_view);
         this._contacts = this.getContacts();
@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private List<Contact>getContacts() {
-        return DatabaseSingleton.getDao(this).getAllContacts();
+        return DatabaseSingleton.getContactDao(this).getAllContacts();
     }
 
     @Override
@@ -111,10 +111,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void deleteContact(long id)
     {
-        Contact contact = DatabaseSingleton.getDao(this).getContact(id);
+        Contact contact = DatabaseSingleton.getContactDao(this).getContact(id);
         if (contact == null)
             return;
-        DatabaseSingleton.getDao(this).deleteContact(contact);
+        DatabaseSingleton.getContactDao(this).deleteContact(contact);
         this._contacts.remove(contact);
         this._adapter.notifyDataSetChanged();
     }
@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        DatabaseSingleton.getDao(this).close();
+        DatabaseSingleton.getContactDao(this).close();
         super.onDestroy();
     }
 
@@ -170,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
                 if (resultCode == RESULT_OK && data != null) {
                     Long id = data.getLongExtra(ID_EXTRA, 0);
                     Log.e("fr", "id : " + Long.toString(id)); //NON-NLS
-                    Contact cont = DatabaseSingleton.getDao(this).getContact(id);
+                    Contact cont = DatabaseSingleton.getContactDao(this).getContact(id);
                     Log.e("fr", "Adding contact : " + cont.get_nom_prenom()); //NON-NLS
                     this._contacts.add(cont);
                     this._adapter.notifyDataSetChanged();

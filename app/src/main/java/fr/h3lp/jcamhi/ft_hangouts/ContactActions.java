@@ -23,7 +23,7 @@ class ContactActions{
         if (id != _actualId && _actualActivity != activity) {
             _actualActivity = activity;
             _actualId = id;
-            _actualContact = DatabaseSingleton.getDao(activity).getContact(id);
+            _actualContact = DatabaseSingleton.getContactDao(activity).getContact(id);
         }
 
         if (ContextCompat.checkSelfPermission(activity, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
