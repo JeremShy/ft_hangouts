@@ -8,29 +8,43 @@ import android.database.sqlite.SQLiteOpenHelper;
  * Created by jcamhi on 9/5/17.
  */
 
-@SuppressWarnings("HardCodedStringLiteral")
+@SuppressWarnings("ALL")
 public class MySQLiteHelper extends SQLiteOpenHelper {
 
     public static final String TABLE_CONTACTS = "contacts";
-    public static final String COL_ID = "_id";
-    public static final String COL_PRENOM = "prenom";
-    public static final String COL_NOM = "nom";
-    public static final String COL_NUMERO = "numero";
-    public static final String COL_DOMICILE = "domicile";
-    public static final String COL_ANNIVERSAIRE = "anniversaire";
+    public static final String COL_ID_CONTACTS = "_id";
+    public static final String COL_PRENOM_CONTACTS = "prenom";
+    public static final String COL_NOM_CONTACTS = "nom";
+    public static final String COL_NUMERO_CONTACTS = "numero";
+    public static final String COL_DOMICILE_CONTACTS = "domicile";
+    public static final String COL_ANNIVERSAIRE_CONTACTS = "anniversaire";
 
-    private static final String DATABASE_NAME = "contacts.db";
+
+    public static final String TABLE_SMS = "sms";
+    public static final String COL_ID_SMS = "_id";
+    public static final String COL_DEST_SMS = "destinataire";
+    public static final String COL_FROM_ME = "from_me";
+
+    private static final String DATABASE_NAME = "ft_hangouts.db";
     private static final int DATABASE_VERSION = 1;
 
-    private static final String DATABASE_CREATE = "create table "
+    private static final String CONTACT_CREATE = "create table "
             + MySQLiteHelper.TABLE_CONTACTS + "("
-            + MySQLiteHelper.COL_ID + " integer primary key autoincrement, "
-            + MySQLiteHelper.COL_NOM + " text not null, "
-            + MySQLiteHelper.COL_PRENOM + " text not null, "
-            + MySQLiteHelper.COL_NUMERO + " text not null, "
-            + MySQLiteHelper.COL_DOMICILE + " text not null, "
-            + MySQLiteHelper.COL_ANNIVERSAIRE + " int not null"
+            + MySQLiteHelper.COL_ID_CONTACTS + " integer primary key autoincrement, "
+            + MySQLiteHelper.COL_NOM_CONTACTS + " text not null, "
+            + MySQLiteHelper.COL_PRENOM_CONTACTS + " text not null, "
+            + MySQLiteHelper.COL_NUMERO_CONTACTS + " text not null, "
+            + MySQLiteHelper.COL_DOMICILE_CONTACTS + " text not null, "
+            + MySQLiteHelper.COL_ANNIVERSAIRE_CONTACTS + " int not null"
             + ");";
+
+    private static final String SMS_CREATE = "create table "
+            + MySQLiteHelper.TABLE_SMS + "("
+            + MySQLiteHelper.COL_ID_SMS + " integer primary key autoincrement, "
+            + MySQLiteHelper.COL_DEST_SMS + " text not null, "
+            + MySQLiteHelper.COL_FROM_ME + " int not null"
+            + ");";
+
 
     MySQLiteHelper(Context context) {
         super (context, MySQLiteHelper.DATABASE_NAME, null, MySQLiteHelper.DATABASE_VERSION);
@@ -38,7 +52,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL(DATABASE_CREATE);
+        sqLiteDatabase.execSQL(CONTACT_CREATE);
+        sqLiteDatabase.execSQL(SMS_CREATE);
     }
 
     @Override

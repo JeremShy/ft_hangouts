@@ -20,17 +20,17 @@ public class ContactDAO {
     private MySQLiteHelper _dbHelper;
     private Context _context;
     private String[] allColumns = {
-            MySQLiteHelper.COL_ID,
-            MySQLiteHelper.COL_NOM,
-            MySQLiteHelper.COL_PRENOM,
-            MySQLiteHelper.COL_NUMERO,
-            MySQLiteHelper.COL_DOMICILE,
-            MySQLiteHelper.COL_ANNIVERSAIRE
+            MySQLiteHelper.COL_ID_CONTACTS,
+            MySQLiteHelper.COL_NOM_CONTACTS,
+            MySQLiteHelper.COL_PRENOM_CONTACTS,
+            MySQLiteHelper.COL_NUMERO_CONTACTS,
+            MySQLiteHelper.COL_DOMICILE_CONTACTS,
+            MySQLiteHelper.COL_ANNIVERSAIRE_CONTACTS
     };
 
     ContactDAO(Context context) {
         this._context = context;
-        this._dbHelper = new MySQLiteHelper(context);
+        this._dbHelper = DatabaseSingleton.getSqliteHelper(context);
     }
 
     public void open() throws SQLException {
@@ -49,14 +49,14 @@ public class ContactDAO {
             d = (long) -1;
 
         ContentValues values = new ContentValues();
-        values.put(MySQLiteHelper.COL_NOM, nom);
-        values.put(MySQLiteHelper.COL_PRENOM, prenom);
-        values.put(MySQLiteHelper.COL_NUMERO, numero);
-        values.put(MySQLiteHelper.COL_DOMICILE, domicile);
-        values.put(MySQLiteHelper.COL_ANNIVERSAIRE, d);
+        values.put(MySQLiteHelper.COL_NOM_CONTACTS, nom);
+        values.put(MySQLiteHelper.COL_PRENOM_CONTACTS, prenom);
+        values.put(MySQLiteHelper.COL_NUMERO_CONTACTS, numero);
+        values.put(MySQLiteHelper.COL_DOMICILE_CONTACTS, domicile);
+        values.put(MySQLiteHelper.COL_ANNIVERSAIRE_CONTACTS, d);
 
         long insertId = this._database.insert(MySQLiteHelper.TABLE_CONTACTS, null, values);
-        Cursor cursor = this._database.query(MySQLiteHelper.TABLE_CONTACTS, allColumns, MySQLiteHelper.COL_ID + " = " + insertId, null, null, null, null);
+        Cursor cursor = this._database.query(MySQLiteHelper.TABLE_CONTACTS, allColumns, MySQLiteHelper.COL_ID_CONTACTS + " = " + insertId, null, null, null, null);
         cursor.moveToFirst();
         Contact ret = this.cursorToContact(cursor);
         cursor.close();
@@ -71,14 +71,14 @@ public class ContactDAO {
             d = (long) -1;
 
         ContentValues values = new ContentValues();
-        values.put(MySQLiteHelper.COL_NOM, nom);
-        values.put(MySQLiteHelper.COL_PRENOM, prenom);
-        values.put(MySQLiteHelper.COL_NUMERO, numero);
-        values.put(MySQLiteHelper.COL_DOMICILE, domicile);
-        values.put(MySQLiteHelper.COL_ANNIVERSAIRE, d);
+        values.put(MySQLiteHelper.COL_NOM_CONTACTS, nom);
+        values.put(MySQLiteHelper.COL_PRENOM_CONTACTS, prenom);
+        values.put(MySQLiteHelper.COL_NUMERO_CONTACTS, numero);
+        values.put(MySQLiteHelper.COL_DOMICILE_CONTACTS, domicile);
+        values.put(MySQLiteHelper.COL_ANNIVERSAIRE_CONTACTS, d);
 
-        this._database.update(MySQLiteHelper.TABLE_CONTACTS, values, MySQLiteHelper.COL_ID + " = " + id, null);
-        Cursor cursor = this._database.query(MySQLiteHelper.TABLE_CONTACTS, allColumns, MySQLiteHelper.COL_ID + " = " + id, null, null, null, null);
+        this._database.update(MySQLiteHelper.TABLE_CONTACTS, values, MySQLiteHelper.COL_ID_CONTACTS + " = " + id, null);
+        Cursor cursor = this._database.query(MySQLiteHelper.TABLE_CONTACTS, allColumns, MySQLiteHelper.COL_ID_CONTACTS + " = " + id, null, null, null, null);
         cursor.moveToFirst();
         cursor.close();
     }
@@ -86,7 +86,7 @@ public class ContactDAO {
 
     public void deleteContact(Contact contact) {
         long id = contact.get_id();
-        _database.delete(MySQLiteHelper.TABLE_CONTACTS, MySQLiteHelper.COL_ID + " = " + id, null);
+        _database.delete(MySQLiteHelper.TABLE_CONTACTS, MySQLiteHelper.COL_ID_CONTACTS + " = " + id, null);
     }
 
     public List<Contact> getAllContacts() {
@@ -107,7 +107,7 @@ public class ContactDAO {
     public Contact getContact(long id) {
         if (this._database == null)
             return null;
-        Cursor cursor = this._database.query(MySQLiteHelper.TABLE_CONTACTS, allColumns, MySQLiteHelper.COL_ID + " = " + id, null, null, null, null);
+        Cursor cursor = this._database.query(MySQLiteHelper.TABLE_CONTACTS, allColumns, MySQLiteHelper.COL_ID_CONTACTS + " = " + id, null, null, null, null);
         cursor.moveToFirst();
         if (cursor.isAfterLast() || cursor.isBeforeFirst())
             return (null);
@@ -117,19 +117,19 @@ public class ContactDAO {
     }
 
     private Contact cursorToContact(Cursor cursor){
-        Long l = cursor.getLong(cursor.getColumnIndex(MySQLiteHelper.COL_ANNIVERSAIRE));
+        Long l = cursor.getLong(cursor.getColumnIndex(MySQLiteHelper.COL_ANNIVERSAIRE_CONTACTS));
         Date d;
         if (l <= 0)
             d = null;
         else
             d = new Date(l);
         return (new Contact(
-                cursor.getLong(cursor.getColumnIndexOrThrow(MySQLiteHelper.COL_ID)),
-                cursor.getString(cursor.getColumnIndex(MySQLiteHelper.COL_NOM)),
-                cursor.getString(cursor.getColumnIndex(MySQLiteHelper.COL_PRENOM)),
-                cursor.getString(cursor.getColumnIndex(MySQLiteHelper.COL_NUMERO)),
+                cursor.getLong(cursor.getColumnIndexOrThrow(MySQLiteHelper.COL_ID_CONTACTS)),
+                cursor.getString(cursor.getColumnIndex(MySQLiteHelper.COL_NOM_CONTACTS)),
+                cursor.getString(cursor.getColumnIndex(MySQLiteHelper.COL_PRENOM_CONTACTS)),
+                cursor.getString(cursor.getColumnIndex(MySQLiteHelper.COL_NUMERO_CONTACTS)),
                 ResourcesCompat.getDrawable(this._context.getResources(), R.mipmap.ic_person, null), // Contact's picture.
-                cursor.getString(cursor.getColumnIndex(MySQLiteHelper.COL_DOMICILE)),
+                cursor.getString(cursor.getColumnIndex(MySQLiteHelper.COL_DOMICILE_CONTACTS)),
                 d));
     }
 }

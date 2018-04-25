@@ -162,25 +162,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == LANGUAGE_CHANGED) {
-            this.recreate();
-        } else if (requestCode == CONTACT_ADDED) {
-            if (resultCode == RESULT_OK && data != null) {
-                Long id = data.getLongExtra(ID_EXTRA, 0);
-                Log.e("fr", "id : " + Long.toString(id)); //NON-NLS
-                Contact cont = DatabaseSingleton.getDao(this).getContact(id);
-                Log.e("fr", "Adding contact : " + cont.get_nom_prenom()); //NON-NLS
-                this._contacts.add(cont);
-                this._adapter.notifyDataSetChanged();
-            }
-        } else if (requestCode == CONTACT_CHANGED) {
-            if (resultCode == RESULT_OK) {
-                Long id = data.getLongExtra(EXTRA_ID, 0);
-                Log.e("fr", "Removing contact " + Long.toString(id));
-                Contact fakeContact = new Contact(id, "", "", "", ResourcesCompat.getDrawable(this.getResources(), R.mipmap.ic_person, null));
-                this._contacts.remove(fakeContact);
-                this._adapter.notifyDataSetChanged();
-            }
+        switch (requestCode) {
+            case LANGUAGE_CHANGED:
+                this.recreate();
+                break;
+            case CONTACT_ADDED:
+                if (resultCode == RESULT_OK && data != null) {
+                    Long id = data.getLongExtra(ID_EXTRA, 0);
+                    Log.e("fr", "id : " + Long.toString(id)); //NON-NLS
+                    Contact cont = DatabaseSingleton.getDao(this).getContact(id);
+                    Log.e("fr", "Adding contact : " + cont.get_nom_prenom()); //NON-NLS
+                    this._contacts.add(cont);
+                    this._adapter.notifyDataSetChanged();
+                }
+                break;
+            case CONTACT_CHANGED:
+                if (resultCode == RESULT_OK) {
+                    Long id = data.getLongExtra(EXTRA_ID, 0);
+                    Log.e("fr", "Removing contact " + Long.toString(id));
+                    Contact fakeContact = new Contact(id, "", "", "", ResourcesCompat.getDrawable(this.getResources(), R.mipmap.ic_person, null));
+                    this._contacts.remove(fakeContact);
+                    this._adapter.notifyDataSetChanged();
+                }
+                break;
         }
     }
 

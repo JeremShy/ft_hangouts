@@ -145,9 +145,6 @@ public class Contact {
         if (!(rhs instanceof  Contact))
             return false;
         Contact rhsContact = (Contact)rhs;
-        if (rhsContact._id == this._id)
-            return true;
-        else
-            return false;
+        return rhsContact._id == this._id;
     }
 }
