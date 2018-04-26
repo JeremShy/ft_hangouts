@@ -27,18 +27,18 @@ public class SMSAdapter extends ArrayAdapter<MySMS> {
             LayoutInflater inf = LayoutInflater.from(getContext());
             if (sms.is_fromMe())
             {
-                inf.inflate(R.layout.sms_out_row, parent, false);
+                convertView = inf.inflate(R.layout.sms_out_row, parent, false);
             }
             else
             {
-                inf.inflate(R.layout.sms_out_row, parent, false);
+                convertView = inf.inflate(R.layout.sms_inc_row, parent, false);
             }
         }
         SMSHolder holder = (SMSHolder)convertView.getTag();
         if (holder == null)
         {
             holder = new SMSHolder();
-            holder.message = convertView.findViewById(R.id.sms_message_edit);
+            holder.message = convertView.findViewById(R.id.sms_message_text);
             convertView.setTag(holder);
         }
         holder.message.setText(sms.get_message());

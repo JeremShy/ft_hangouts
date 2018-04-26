@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
 <TextView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
@@ -6,7 +12,11 @@
     android:layout_height="wrap_content"
     android:maxWidth="250dp"
     android:padding="5dp"
+    android:layout_margin="5dp"
     android:text="This is a message example. I would like to know, how are you ?"
     android:textColor="@android:color/white"
     android:id="@+id/sms_message_text"
-    android:background="@drawable/default_inc_background"/>
+    android:background="@drawable/default_inc_background"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintLeft_toLeftOf="parent"/>
+</android.support.constraint.ConstraintLayout>

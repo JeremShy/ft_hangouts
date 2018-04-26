@@ -27,7 +27,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public static final String COL_MESSAGE = "message";
 
     private static final String DATABASE_NAME = "ft_hangouts.db";
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 1;
 
     private static final String CONTACT_CREATE = "create table "
             + MySQLiteHelper.TABLE_CONTACTS + "("
@@ -43,8 +43,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             + MySQLiteHelper.TABLE_SMS + "("
             + MySQLiteHelper.COL_ID_SMS + " integer primary key autoincrement, "
             + MySQLiteHelper.COL_DEST_SMS + " int not null, "
-            + MySQLiteHelper.COL_FROM_ME + " int not null,"
-            + MySQLiteHelper.COL_MESSAGE + "  text not null"
+            + MySQLiteHelper.COL_FROM_ME + " int not null, "
+            + MySQLiteHelper.COL_MESSAGE + " text not null"
             + ");";
 
 

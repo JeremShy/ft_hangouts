@@ -13,7 +13,8 @@ class ContactActions{
     static private long _actualId = -1;
     static private Activity _actualActivity = null;
     static private Contact _actualContact = null;
-    static private int MY_PERM_CALL_PHONE = 0;
+    static public int MY_PERM_CALL_PHONE = 0;
+    static public int MY_PERM_SEND_SMS = 1;
     static private ContactActions _singleton = null;
 
     static public void callContact(Activity activity, long id) {
@@ -56,7 +57,6 @@ class ContactActions{
                 _actualContact = null;
                 _actualActivity = null;
             }
-
         }
     }
 }
